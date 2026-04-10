@@ -107,6 +107,7 @@ unlinked_spec.ds
 
 # Coverage
 coverage/
+.worktrees/
 
 # Symbols
 app.*.symbols

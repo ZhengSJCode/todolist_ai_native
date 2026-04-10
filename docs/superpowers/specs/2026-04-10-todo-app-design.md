@@ -27,24 +27,36 @@ Current repository state at the time of writing:
 
 The visual reference for this project is the Figma community design provided by the user:
 
-- [Task management - to do list app (Figma)](https://www.figma.com/design/Kccaa8E7JCFmVoMki6PW8U/Task-management---to-do-list-app--Community-?node-id=0-1&p=f&t=FDgZUc7BWIql2INW-0)
+- [Design overview canvas](https://www.figma.com/design/ZvqYjPldHK0At7LAuwmiXO/Task-management---to-do-list-app--Community---Copy-?node-id=1-87&p=f&t=tLzmviVh4noAtR8t-0)
+- [Asset reference node](https://www.figma.com/design/ZvqYjPldHK0At7LAuwmiXO/Task-management---to-do-list-app--Community---Copy-?node-id=101-539&p=f&t=tLzmviVh4noAtR8t-0)
 
 Current constraint:
 
 1. The design link is recorded as the visual source of truth.
-2. The public description confirms a 4-screen mobile task-management design.
+2. The design is a mobile task-management UI kit with multiple frames on a shared presentation canvas.
 3. The design is positioned as customizable, layered, and intended for Android and iOS layouts.
-4. Exact frame-level details are still not extracted into this document.
-5. Until those details are captured, implementation should follow the documented product behavior and align visually to the reference at a high level.
+4. The `1:87` link should be treated as the main design overview and screen index.
+5. The `101:539` link should be treated as an asset or reference node, not the primary screen inventory source.
+6. The Figma file is now accessible from Codex and can be used as a screen-level source of truth.
 
-Known metadata from the design description:
+Known accessible frame inventory from the overview canvas:
 
-1. Total 4 screens
-2. Organized layers and groups
-3. Designed for Android and iOS
-4. Fully customizable
-5. Uses scalable vectors and Google Fonts
-6. Presented as a showcase design rather than a written product specification
+1. `101:100` `let's start`
+2. `101:125` `home`
+3. `101:265` `today's tasks`
+4. `101:358` `add project in task list`
+5. `101:539` task details screen reference supplied by the user
+6. `1:178` `cover`
+7. `1:687` `about us`
+
+Known visual characteristics confirmed from accessible nodes:
+
+1. Primary accent color is purple around `#5F33E1`
+2. Main text color uses a dark neutral around `#24252C`
+3. Secondary text uses a muted neutral around `#6E6A7C`
+4. Typography uses `Lexend Deca`
+5. Layout is mobile-first with 375px-wide frames
+6. The design includes decorative gradients, soft shapes, and illustration-heavy onboarding
 
 ## Goals
 
@@ -121,17 +133,17 @@ Typical flow:
 9. The Web layout must be usable on desktop browser widths first.
 10. The same presentation layer should run on macOS without a separate code path for core todo flows.
 
-### Screen Inventory Assumption
+### Screen Inventory
 
-Based on the public design description, the visual reference appears to contain 4 screens.
-Because the actual frame contents have not been extracted in a structured way yet, the following mapping is a temporary product assumption only:
+The accessible Figma nodes now confirm the following screen set for the mobile flow:
 
-1. Entry or onboarding-like screen if required by the design
-2. Main task list screen
-3. Create or edit task interaction
-4. Filtered, detail, or status-focused task view
+1. `let's start` onboarding or entry screen
+2. `home` dashboard screen
+3. `today's tasks` filtered task list screen
+4. `add project in task list` create-project form screen
+5. `101:539` task details screen shared by the user for downstream implementation reference
 
-This assumption must be refined once concrete frame content is available. Until then, none of the 4 items above should be treated as a confirmed Figma frame name or exact screen contract.
+This means the product should no longer be treated as a vague 4-screen assumption. The file contains a concrete mobile flow and implementation can map UI work to these named frames directly.
 
 ### Server
 

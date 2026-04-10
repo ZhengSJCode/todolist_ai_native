@@ -115,6 +115,19 @@
 
 1. `feat: add todo app shell and route frame`
 
+**Execution order for the current milestone:**
+
+- [ ] Create `lib/src` directories for app shell, theme, pages, and shared widgets
+- [ ] Replace scaffold `main.dart` entry with a thin app bootstrap that points at `lib/src`
+- [ ] Write a failing widget test that expects the app to open on the `home` screen
+- [ ] Run that test and verify the failure is caused by the missing shell and screen structure
+- [ ] Implement the minimal app shell, theme baseline, and route state to make the first shell test pass
+- [ ] Run the targeted shell test again and verify it passes
+- [ ] Write a failing widget test that expects bottom navigation to switch between `home` and `today's tasks`
+- [ ] Run the navigation test and verify the failure is caused by missing navigation behavior
+- [ ] Implement the minimal bottom navigation container to make the navigation test pass
+- [ ] Run the navigation test again and verify it passes
+
 ### Task 5: Primary Todo List Screen UI
 
 **Purpose:** Build the main list screen with static or mock data first.
@@ -138,6 +151,22 @@
 **Commit guidance:**
 
 1. `feat: add primary todo list screen ui`
+
+**Execution order for the current milestone:**
+
+- [ ] Read Figma node `101:125` and record the exact `home` screen sections to reproduce first
+- [ ] Write a failing widget test that expects the `home` screen greeting, progress card, and section titles
+- [ ] Run the test and verify it fails because the `home` screen is not implemented yet
+- [ ] Implement the minimal `home` page structure with static mock data to satisfy the expected copy and sections
+- [ ] Run the targeted `home` test and verify it passes
+- [ ] Write a failing widget test that expects the in-progress project cards to render with labels and progress values
+- [ ] Run the project-card test and verify it fails for the expected missing UI reason
+- [ ] Extract a reusable project progress card widget and implement the minimal UI needed to pass
+- [ ] Run the targeted project-card test and verify it passes
+- [ ] Write a failing widget test that expects the task-group rows to render as reusable summary tiles
+- [ ] Run the task-group test and verify it fails because the summary tile widget is missing
+- [ ] Extract a reusable task group summary tile widget and implement the minimal UI needed to pass
+- [ ] Run the targeted task-group test and verify it passes
 
 ### Task 6: Create And Edit Task UI
 
@@ -181,6 +210,37 @@
 **Commit guidance:**
 
 1. `feat: add task filter and status interaction ui`
+
+**Execution order for the current milestone:**
+
+- [ ] Read Figma node `101:265` and record the exact `today's tasks` sections to reproduce first
+- [ ] Write a failing widget test that expects the `today's tasks` screen title, date chips, and filter chips
+- [ ] Run the test and verify it fails because the screen is not implemented yet
+- [ ] Implement the minimal `today's tasks` page structure with static mock data to satisfy the expected layout and text
+- [ ] Run the targeted `today's tasks` test and verify it passes
+- [ ] Write a failing widget test that expects representative task cards with time, category, and status badges
+- [ ] Run the task-card test and verify it fails for the expected missing-widget reason
+- [ ] Extract a reusable task detail card widget and implement the minimal UI needed to pass
+- [ ] Run the targeted task-card test and verify it passes
+- [ ] Write a failing widget test that expects the bottom navigation selection state to reflect the active screen
+- [ ] Run the selection-state test and verify it fails because active styling is incomplete
+- [ ] Implement the minimal active/inactive navigation styling needed to pass
+- [ ] Run the navigation styling test and verify it passes
+
+## Current Milestone Slice
+
+The next execution slice should be limited to the first two product screens plus the shared shell they require:
+
+1. `home`
+2. `today's tasks`
+3. Shared theme tokens
+4. Shared bottom navigation
+5. Shared summary card and task card widgets
+
+The following screens are intentionally deferred until this slice is green:
+
+1. `let's start`
+2. `add project in task list`
 
 ### Task 8: UI Verification On Web
 

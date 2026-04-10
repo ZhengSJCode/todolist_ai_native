@@ -1,30 +1,51 @@
-// This is a basic Flutter widget test.
-//
-// To perform an interaction with a widget in your test, use the WidgetTester
-// utility in the flutter_test package. For example, you can send tap and scroll
-// gestures. You can also use WidgetTester to find child widgets in the widget
-// tree, read text, and verify that the values of widget properties are correct.
-
-import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 import 'package:todolist_ai_native/main.dart';
 
 void main() {
-  testWidgets('Counter increments smoke test', (WidgetTester tester) async {
-    // Build our app and trigger a frame.
+  testWidgets('app opens on the home screen', (tester) async {
     await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter starts at 0.
-    expect(find.text('0'), findsOneWidget);
-    expect(find.text('1'), findsNothing);
+    expect(find.text('Hello!'), findsOneWidget);
+    expect(find.text('Livia Vaccaro'), findsOneWidget);
+    expect(find.text('In Progress'), findsWidgets);
+    expect(find.text('Task Groups'), findsOneWidget);
+  });
 
-    // Tap the '+' icon and trigger a frame.
-    await tester.tap(find.byIcon(Icons.add));
-    await tester.pump();
+  testWidgets('bottom navigation switches between home and today tasks', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const MyApp());
 
-    // Verify that our counter has incremented.
-    expect(find.text('0'), findsNothing);
-    expect(find.text('1'), findsOneWidget);
+    expect(find.text('Today’s Tasks'), findsNothing);
+
+    await tester.tap(find.text('Calendar'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Today’s Tasks'), findsOneWidget);
+    expect(find.text('Market Research'), findsOneWidget);
+
+    await tester.tap(find.text('Home'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('Today’s Tasks'), findsNothing);
+    expect(find.text('Livia Vaccaro'), findsOneWidget);
+  });
+
+  testWidgets('today tasks screen shows date chips and representative tasks', (
+    tester,
+  ) async {
+    await tester.pumpWidget(const MyApp());
+
+    await tester.tap(find.text('Calendar'));
+    await tester.pumpAndSettle();
+
+    expect(find.text('25'), findsOneWidget);
+    expect(find.text('All'), findsOneWidget);
+    expect(find.text('To do'), findsOneWidget);
+    expect(find.text('In Progress'), findsWidgets);
+    expect(find.text('Completed'), findsOneWidget);
+    expect(find.text('Competitive Analysis'), findsOneWidget);
+    expect(find.text('Create Low-fidelity Wireframe'), findsOneWidget);
   });
 }

@@ -1,14 +1,40 @@
 # todolist_ai_native
 
-A Flutter todo application for practicing TDD with a real REST API.
+A Flutter todo application under active development.
+
+The current repository mainly contains the Flutter client scaffold plus project planning documents for a UI-first implementation. The Dart REST backend is planned, but it is not in this repository yet.
+
+## Current Status
+
+1. Flutter app scaffold exists in `lib/`, `test/`, and platform folders.
+2. Product, architecture, and execution docs live under `docs/`.
+3. The implementation workflow is test-first TDD.
+4. The first implementation milestone is UI-first on Flutter Web, followed by macOS verification.
+5. A future `server/` directory is planned for the Dart REST backend.
 
 ## Docs
 
-- [Project docs](./docs/README.md)
+- [Project docs index](./docs/README.md)
 
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+Install Flutter dependencies:
+
+```bash
+flutter pub get
+```
+
+Run tests:
+
+```bash
+flutter test
+```
+
+Run the app on Web:
+
+```bash
+flutter run -d chrome
+```
 
 ## Git Hooks
 
@@ -19,13 +45,3 @@ npm install
 ```
 
 After dependencies are installed, commits will be blocked if tests fail.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Learn Flutter](https://docs.flutter.dev/get-started/learn-flutter)
-- [Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Flutter learning resources](https://docs.flutter.dev/reference/learning-resources)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.

@@ -4,12 +4,21 @@
 
 This repository hosts a todo application built with Flutter and Dart, developed with TDD.
 
-The project has two major parts in one repository:
+The target project has two major parts in one repository:
 
-1. A Flutter client module that runs independently for now
-2. A Dart REST backend located in its own folder
+1. A Flutter client module that runs independently first
+2. A Dart REST backend planned for its own `server/` folder
 
 The client is expected to follow the architectural style of `translator_lib` where practical, while remaining simple enough for a standalone MVP.
+
+## Current Repository State
+
+Current state, as of this document:
+
+1. The Flutter client scaffold exists today.
+2. The design and plan docs exist today.
+3. The Dart REST backend does not exist yet in this repository.
+4. References to `server/` in this document describe target structure, not an already-implemented component.
 
 ## Core Delivery Rules
 
@@ -35,7 +44,7 @@ The following rules are mandatory for work in this repository:
 
 This repo should stay easy to run locally on one machine.
 
-Use a single-repo, split-directory layout:
+Target single-repo, split-directory layout:
 
 ```text
 /
@@ -158,6 +167,7 @@ Guidelines:
 3. Keep state exposure in `provider/`.
 4. Keep transport and API models separate enough to evolve cleanly.
 5. Avoid Web-only assumptions in core UI flows so macOS can reuse the same code path.
+6. Use `freezed` for Dart data classes that represent domain models, DTOs, or immutable UI state where code generation is appropriate.
 
 ## Backend Guidance
 
@@ -179,7 +189,7 @@ Expected initial API surface:
 
 ## TDD Rules
 
-TDD is the default workflow for both client and server.
+Test-first TDD is the default workflow for both client and server.
 
 Rules:
 
@@ -188,6 +198,7 @@ Rules:
 3. Verify the test fails for the expected reason.
 4. Write the minimum implementation to pass.
 5. Refactor only after returning to green.
+6. If a task cannot be driven by an automated test yet, explicitly minimize the uncovered surface and add the closest practical test first.
 
 Client test focus:
 
@@ -207,7 +218,7 @@ The user has explicitly requested that the UI screens be built first.
 
 Execution rules:
 
-1. Implement the screens before completing the backend feature set.
+1. Implement the screens before completing the backend feature set, but still drive the work with tests first.
 2. It is acceptable to use temporary mock or placeholder data while building the first-pass UI.
 3. The first-pass UI target is approximately 80% visual accuracy relative to the Figma design.
 4. Do not spend early iterations chasing pixel-perfect fidelity.
@@ -218,11 +229,13 @@ Execution rules:
 Always optimize for this order unless the user changes it:
 
 1. Finalize design and implementation plan
-2. Build backend through TDD
-3. Build Flutter client through TDD
-4. Run and verify on Flutter Web
-5. Run and verify on macOS
-6. Consider Android later
+2. Build Flutter client shell and core UI through TDD
+3. Run and verify on Flutter Web
+4. Run and verify on macOS
+5. Build backend through TDD
+6. Wire client to the backend
+7. Re-run end-to-end verification
+8. Consider Android later
 
 ## Figma Reading Policy
 

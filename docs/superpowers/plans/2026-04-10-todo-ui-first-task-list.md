@@ -2,13 +2,21 @@
 
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
-**Goal:** Deliver the todo application incrementally with a UI-first workflow, while preserving TDD, commit discipline, and future host-integration compatibility.
+**Goal:** Deliver the todo application incrementally with a UI-first workflow, while preserving test-first TDD, commit discipline, and future host-integration compatibility.
 
-**Architecture:** The Flutter client runs independently first but follows a `translator_lib`-style module structure centered on `lib/src`. The repository also contains a Dart REST backend in `server/`, but backend completion follows the first-pass UI milestone. Independent work should be isolated by task and by git worktree when appropriate.
+**Architecture:** The Flutter client runs independently first but follows a `translator_lib`-style module structure centered on `lib/src`. A Dart REST backend is planned for a future `server/` directory, but backend work follows the first-pass UI milestone. Independent work should be isolated by task and by git worktree when appropriate.
 
-**Tech Stack:** Flutter, Dart, Web, macOS, Riverpod, GoRouter, Dart REST backend, Git worktrees, TDD
+**Tech Stack:** Flutter, Dart, Web, macOS, Riverpod, GoRouter, Freezed, json_serializable, Dart REST backend, Git worktrees, TDD
 
 ---
+
+## Current Preconditions
+
+1. The repository currently contains the Flutter app scaffold and documentation.
+2. The repository does not yet contain a `server/` directory.
+3. Tasks that mention `server/` describe planned creation work, not modifications to an existing backend.
+4. UI-first remains the controlling execution order for this plan.
+5. New behavior should be added through failing tests first whenever practical.
 
 ## Task Inventory
 
@@ -70,6 +78,7 @@
 2. Establish module entry strategy
 3. Set up routing shape compatible with later host integration
 4. Add initial provider and page placeholders
+5. Reserve model locations for `freezed`-generated data classes
 
 **Deliverables:**
 
@@ -78,6 +87,7 @@
 3. `lib/src/ui/`
 4. `lib/src/widgets/`
 5. `lib/src/api/` and `lib/src/net/` placeholders if needed
+6. A clear location for `freezed` models and generated files
 
 **Commit guidance:**
 
@@ -93,6 +103,7 @@
 2. Home shell layout
 3. Top-level navigation pattern required by the chosen design
 4. Placeholder routes for all first-pass UI screens
+5. Add minimal failing widget tests before introducing each shell behavior
 
 **Deliverables:**
 
@@ -116,6 +127,7 @@
 4. Empty state
 5. Loading state mock
 6. Error state mock
+7. Drive each new UI state with failing widget tests first
 
 **Deliverables:**
 
@@ -137,6 +149,7 @@
 2. Edit-task interaction
 3. Validation messaging in the UI layer
 4. Visual states for save, cancel, and invalid input
+5. Add failing widget tests before implementing each interaction path
 
 **Deliverables:**
 
@@ -158,6 +171,7 @@
 2. Completed vs active presentation
 3. Toggle completed interaction
 4. Delete interaction affordance
+5. Add failing widget or state tests before implementing each interaction
 
 **Deliverables:**
 
@@ -218,6 +232,7 @@
 2. Add package structure
 3. Add test framework setup
 4. Add app entry and placeholder routes
+5. Start with failing contract-oriented tests before server implementation
 
 **Deliverables:**
 
@@ -264,6 +279,7 @@
 3. Repository implementation
 4. Provider wiring
 5. Error handling path from backend to UI
+6. `freezed` models and generated serialization for API-facing data classes
 
 **Deliverables:**
 

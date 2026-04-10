@@ -10,9 +10,18 @@ The codebase should remain compatible with a later Android rollout without resha
 The system includes:
 
 - A Flutter client with UI, state management, and REST API integration
-- A minimal REST backend that serves todo data
+- A planned minimal REST backend that will serve todo data
 - Shared API behavior expressed through contracts and mirrored in tests on both sides
 - A visual direction based on the Figma design reference provided by the user
+
+## Current Implementation State
+
+Current repository state at the time of writing:
+
+1. The Flutter project scaffold exists.
+2. The UI described in this document is not implemented yet.
+3. The REST backend described in this document is planned but not implemented yet.
+4. This document mixes current constraints with target behavior for the first milestone and should be read as a design target, not a status report.
 
 ## Design Reference
 
@@ -40,7 +49,7 @@ Known metadata from the design description:
 ## Goals
 
 1. Build a small but complete todo product instead of a demo-only screen.
-2. Use TDD across client and server:
+2. Use test-first TDD across client and server:
    - define expected behavior first
    - write failing tests
    - implement the minimum code to pass
@@ -114,15 +123,15 @@ Typical flow:
 
 ### Screen Inventory Assumption
 
-Based on the design description, the visual reference contains 4 screens.
-Until the frames are extracted, the working assumption is that MVP should map those screens to a practical todo flow such as:
+Based on the public design description, the visual reference appears to contain 4 screens.
+Because the actual frame contents have not been extracted in a structured way yet, the following mapping is a temporary product assumption only:
 
 1. Entry or onboarding-like screen if required by the design
 2. Main task list screen
 3. Create or edit task interaction
 4. Filtered, detail, or status-focused task view
 
-This assumption must be refined once concrete frame content is available.
+This assumption must be refined once concrete frame content is available. Until then, none of the 4 items above should be treated as a confirmed Figma frame name or exact screen contract.
 
 ### Server
 
@@ -205,9 +214,10 @@ Instead:
 
 ### Client Tests
 
-1. Unit tests for presentation-independent logic where useful
-2. Repository tests for request/response mapping and error handling
-3. Widget tests for:
+1. Write the smallest failing automated test before each new client behavior change.
+2. Unit tests for presentation-independent logic where useful
+3. Repository tests for request/response mapping and error handling
+4. Widget tests for:
    - initial loading
    - list rendering
    - empty state
@@ -217,14 +227,15 @@ Instead:
    - edit flow
    - delete flow
    - filter flow
-4. Web manual verification for layout, responsiveness, and API interaction
-5. macOS manual verification after Web behavior is stable
+5. Web manual verification for layout, responsiveness, and API interaction
+6. macOS manual verification after Web behavior is stable
 
 ### Server Tests
 
-1. Domain/service tests for todo rules
-2. Handler or route tests for HTTP behavior
-3. Contract-oriented tests for status codes and response payloads
+1. Write the failing domain or HTTP test before each new backend behavior.
+2. Domain/service tests for todo rules
+3. Handler or route tests for HTTP behavior
+4. Contract-oriented tests for status codes and response payloads
 
 ## Architecture Direction
 
@@ -252,6 +263,10 @@ Recommended client stack:
 - Flutter
 - `flutter_riverpod`
 - `go_router`
+- `freezed`
+- `json_serializable`
+
+These libraries are target choices for implementation. They are not fully wired into the current scaffold yet.
 
 Module integration guidance derived from `translator_lib`:
 
@@ -260,6 +275,7 @@ Module integration guidance derived from `translator_lib`:
 3. Keep host-provided dependencies and configuration injectable during module initialization.
 4. Prefer `lib/src/pages` for screen ownership and `lib/src/provider` for state exposure, matching the established module style.
 5. Keep REST models, repository code, and transport code grouped in a way that matches the `api` and `net` split already used by `translator_lib`.
+6. Use `freezed`-generated immutable data classes for domain models and DTOs, with generated JSON support where transport mapping is needed.
 
 Presentation guidance:
 

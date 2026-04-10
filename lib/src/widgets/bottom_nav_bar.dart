@@ -14,53 +14,127 @@ class TodoBottomNavBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final items = <({AppTab tab, IconData icon, String label})>[
-      (tab: AppTab.home, icon: Icons.home_rounded, label: 'Home'),
-      (
-        tab: AppTab.calendar,
-        icon: Icons.calendar_today_rounded,
-        label: 'Calendar',
-      ),
-      (tab: AppTab.add, icon: Icons.add_circle_outline_rounded, label: 'Add'),
-      (
-        tab: AppTab.documents,
-        icon: Icons.description_outlined,
-        label: 'Documents',
-      ),
-      (tab: AppTab.profile, icon: Icons.group_outlined, label: 'Profile'),
-    ];
-
-    return DecoratedBox(
-      decoration: const BoxDecoration(
-        color: Color(0xFFF1EBFF),
-        boxShadow: [
-          BoxShadow(
-            color: Color(0x12000000),
-            blurRadius: 20,
-            offset: Offset(0, -6),
-          ),
-        ],
-      ),
-      child: SafeArea(
-        top: false,
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-          child: Row(
-            children: [
-              for (final item in items)
-                Expanded(
-                  child: TextButton.icon(
-                    onPressed: () => onSelected(item.tab),
-                    style: TextButton.styleFrom(
-                      foregroundColor: currentTab == item.tab
-                          ? const Color(0xFF5F33E1)
-                          : const Color(0xFF9C8FE8),
+    return SafeArea(
+      top: false,
+      child: SizedBox(
+        height: 78,
+        child: Stack(
+          clipBehavior: Clip.none,
+          children: [
+            Positioned.fill(
+              top: 22,
+              child: DecoratedBox(
+                decoration: const BoxDecoration(
+                  color: Color(0xFFF1EBFF),
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(22)),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Color(0x12000000),
+                      blurRadius: 20,
+                      offset: Offset(0, -6),
                     ),
-                    icon: Icon(item.icon, size: 20),
-                    label: Text(item.label, overflow: TextOverflow.ellipsis),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    _NavItem(
+                      key: const Key('nav-home'),
+                      semanticLabel: 'Home',
+                      icon: Icons.home_rounded,
+                      selected: currentTab == AppTab.home,
+                      onTap: () => onSelected(AppTab.home),
+                    ),
+                    _NavItem(
+                      key: const Key('nav-calendar'),
+                      semanticLabel: 'Calendar',
+                      icon: Icons.calendar_today_rounded,
+                      selected: currentTab == AppTab.calendar,
+                      onTap: () => onSelected(AppTab.calendar),
+                    ),
+                    const Spacer(),
+                    _NavItem(
+                      key: const Key('nav-documents'),
+                      semanticLabel: 'Documents',
+                      icon: Icons.description_outlined,
+                      selected: currentTab == AppTab.documents,
+                      onTap: () => onSelected(AppTab.documents),
+                    ),
+                    _NavItem(
+                      key: const Key('nav-profile'),
+                      semanticLabel: 'Profile',
+                      icon: Icons.group_outlined,
+                      selected: currentTab == AppTab.profile,
+                      onTap: () => onSelected(AppTab.profile),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              top: 0,
+              left: 0,
+              right: 0,
+              child: Center(
+                child: GestureDetector(
+                  onTap: () => onSelected(AppTab.add),
+                  child: Container(
+                    width: 58,
+                    height: 58,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      gradient: LinearGradient(
+                        colors: [Color(0xFF7D4CFF), Color(0xFF5F33E1)],
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Color(0x555F33E1),
+                          blurRadius: 16,
+                          offset: Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    alignment: Alignment.center,
+                    child: const Icon(Icons.add, color: Colors.white, size: 30),
                   ),
                 ),
-            ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _NavItem extends StatelessWidget {
+  const _NavItem({
+    super.key,
+    required this.semanticLabel,
+    required this.icon,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String semanticLabel;
+  final IconData icon;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final color = selected ? const Color(0xFF5F33E1) : const Color(0xFF9C8FE8);
+
+    return Expanded(
+      child: Padding(
+        padding: const EdgeInsets.only(top: 18),
+        child: InkWell(
+          onTap: onTap,
+          child: Semantics(
+            label: semanticLabel,
+            button: true,
+            child: Icon(icon, size: 22, color: color),
           ),
         ),
       ),

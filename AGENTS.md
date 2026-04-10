@@ -111,12 +111,15 @@ Rules:
 3. Use commit boundaries to reflect actual progress within a task.
 4. If a task takes multiple iterations, keep each iteration reviewable.
 5. Avoid mixing UI, backend, and unrelated refactors in one commit unless they are inseparable.
+6. Before every commit, actually run the project, not just tests.
+7. A commit is not ready until the current target surface can launch successfully on at least one supported runtime.
 
 Preferred commit pattern inside a task:
 
 1. add failing tests or scaffolding
 2. implement minimal passing behavior
 3. refine structure or polish while keeping tests green
+4. launch the app and confirm it starts before committing
 
 ## Worktree Policy
 
@@ -237,45 +240,16 @@ Always optimize for this order unless the user changes it:
 7. Re-run end-to-end verification
 8. Consider Android later
 
-## Figma Reading Policy
+## Pre-Commit Runtime Verification
 
-The design reference is:
-
-- [Task management - to do list app (Figma)](https://www.figma.com/design/Kccaa8E7JCFmVoMki6PW8U/Task-management---to-do-list-app--Community-?node-id=1-87&p=f&t=FDgZUc7BWIql2INW-0)
+In addition to automated tests, every commit must include a real launch check.
 
 Rules:
 
-1. Prefer reading Figma through MCP if a Figma MCP server or resource is available in the current environment.
-2. Treat MCP-derived frame and component data as the preferred source for UI implementation details.
-3. If Figma MCP is unavailable, record that limitation explicitly and avoid claiming exact design parity.
-4. In the absence of MCP access, use the documented product behavior and any user-supplied descriptions as the temporary source of truth until Figma details are available.
+1. Run the project before every commit.
+2. Prefer Flutter Web first for UI work.
+3. Use macOS launch verification when the current change affects desktop behavior or when Web is insufficient.
+4. Do not treat passing tests as a substitute for a successful app launch.
+5. If the app does not start cleanly, fix that before committing.
 
-Current note:
-
-1. No Figma MCP resource is currently exposed in this environment.
-2. Work should assume the Figma link is authoritative, but exact frame extraction is still blocked until MCP access or equivalent structured access is available.
-
-## Design And Docs
-
-Before implementation, consult:
-
-1. `docs/superpowers/specs/2026-04-10-todo-app-design.md`
-
-The design doc is the current source of truth for:
-
-1. product scope
-2. API outline
-3. testing strategy
-4. platform order
-5. architecture direction
-
-If implementation decisions change any of those, update the doc before or alongside the code change.
-
-## Working Rules
-
-1. Keep the MVP narrow.
-2. Favor behavior completeness over visual perfection in early milestones.
-3. Record important architecture or contract decisions in `docs/`.
-4. Preserve a clean path from standalone module to future host integration.
-5. Keep setup simple enough that one developer can run client and server locally without extra infrastructure.
-6. Respect task boundaries, commit discipline, and worktree isolation as first-class project rules.
+## Figma Reading Policy

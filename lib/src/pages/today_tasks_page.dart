@@ -8,7 +8,7 @@ class TodayTasksPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(22, 20, 22, 24),
+      padding: const EdgeInsets.fromLTRB(22, 20, 22, 8),
       children: const [
         _TodayHeader(),
         SizedBox(height: 24),
@@ -45,6 +45,17 @@ class TodayTasksPage extends StatelessWidget {
           status: 'To-do',
           icon: Icons.sell_outlined,
           iconBackground: Color(0xFFEDE4FF),
+          statusBackground: Color(0xFFE3F2FF),
+          statusColor: Color(0xFF0087FF),
+        ),
+        SizedBox(height: 16),
+        TaskDetailCard(
+          category: 'About design sprint',
+          title: 'How to pitch a Design Sprint',
+          time: '09:00 PM',
+          status: 'To-do',
+          icon: Icons.menu_book_outlined,
+          iconBackground: Color(0xFFFFE6D4),
           statusBackground: Color(0xFFE3F2FF),
           statusColor: Color(0xFF0087FF),
         ),

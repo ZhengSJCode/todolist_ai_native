@@ -9,7 +9,7 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView(
-      padding: const EdgeInsets.fromLTRB(22, 20, 22, 24),
+      padding: const EdgeInsets.fromLTRB(22, 20, 22, 8),
       children: const [
         _HomeHeader(),
         SizedBox(height: 24),
@@ -70,6 +70,15 @@ class HomePage extends StatelessWidget {
           iconBackground: Color(0xFFFFE6D4),
           accentColor: Color(0xFFFF8A3D),
         ),
+        SizedBox(height: 16),
+        TaskGroupTile(
+          title: 'Daily Study',
+          subtitle: '3 Tasks',
+          progressLabel: '87%',
+          icon: Icons.wb_sunny_outlined,
+          iconBackground: Color(0xFFFFF6D4),
+          accentColor: Color(0xFFF0C400),
+        ),
       ],
     );
   }
@@ -85,7 +94,7 @@ class _HomeHeader extends StatelessWidget {
         const CircleAvatar(
           radius: 23,
           backgroundColor: Color(0xFF1490D2),
-          child: Icon(Icons.person, color: Colors.white),
+          child: Icon(Icons.person_rounded, color: Colors.white, size: 28),
         ),
         const SizedBox(width: 16),
         Expanded(
@@ -101,7 +110,19 @@ class _HomeHeader extends StatelessWidget {
             ],
           ),
         ),
-        const Icon(Icons.notifications, color: Color(0xFF24252C)),
+        Stack(
+          children: const [
+            Icon(Icons.notifications, color: Color(0xFF24252C)),
+            Positioned(
+              right: 0,
+              top: 0,
+              child: CircleAvatar(
+                radius: 4,
+                backgroundColor: Color(0xFF7D4CFF),
+              ),
+            ),
+          ],
+        ),
       ],
     );
   }
@@ -116,7 +137,16 @@ class _HeroProgressCard extends StatelessWidget {
       padding: const EdgeInsets.all(22),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(24),
-        color: const Color(0xFF5F33E1),
+        gradient: const LinearGradient(
+          colors: [Color(0xFF6B3FF0), Color(0xFF5F33E1)],
+        ),
+        boxShadow: const [
+          BoxShadow(
+            color: Color(0x12000000),
+            blurRadius: 24,
+            offset: Offset(0, 8),
+          ),
+        ],
       ),
       child: Row(
         children: [

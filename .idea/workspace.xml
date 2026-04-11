@@ -1,5 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="NONE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="4fe4cfc5-e99f-4065-8e2f-de70656414fb" name="Changes" comment="chore(config): 更新idea工作区本地配置">
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="formatViaClangd" value="false" />
+  </component>
   <component name="FileEditorManager">
     <leaf>
       <file leaf-file-name="main.dart" pinned="false" current-in-tab="true">
@@ -13,24 +29,177 @@
       </file>
     </leaf>
   </component>
-  <component name="ToolWindowManager">
-    <editor active="true" />
-    <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-    </layout>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitRewordedCommitMessages">
+    <option name="commitMessagesMapping">
+      <RewordedCommitMessageMapping>
+        <option name="originalMessage" value="feat: 重构应用入口，移除 Riverpod 依赖并引入 bootstrap&#10;&#10;- 移除 main.dart 中对 flutter_riverpod 的依赖&#10;- 引入新的 bootstrap.dart 作为应用入口&#10;- 使用 createAppRoot() 替代 ProviderScope 包装的 TodoApp&#10;- 保持对 MyApp 的导出以兼容现有测试&#10;&#10;Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;" />
+        <option name="rewordedMessage" value="fix: 更新移动端配置文件&#10;&#10;- 更新 Android 构建配置文件 (build.gradle.kts)&#10;- 更新 Gradle Wrapper 配置&#10;- 更新 iOS 配置文件 (Debug.xcconfig, Release.xcconfig)&#10;&#10;Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;&#10;&#10;&#10;test: 更新现有测试文件以适配新架构&#10;&#10;- 更新 add_project_page_test.dart 测试&#10;- 更新 today_tasks_filter_test.dart 测试&#10;- 更新 todo_api_client_test.dart 测试&#10;&#10;Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;&#10;&#10;&#10;feat: 新增待办事项列表页面和添加对话框组件&#10;&#10;- 新增 TodoListPage 页面组件&#10;- 新增 AddTodoDialog 对话框组件&#10;- 实现基础的待办事项展示和添加功能&#10;&#10;Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;&#10;&#10;&#10;feat: 添加 Patrol 集成测试框架及相关配置&#10;&#10;- 在 pubspec.yaml 中添加 patrol 和 patrol_finders 依赖&#10;- 配置 patrol 相关参数（应用名称、包名、bundle ID）&#10;- 新增 patrol_test 目录用于集成测试&#10;- 更新 integration_test 目录下的测试文件&#10;- 新增 test/widget 目录用于 widget 测试&#10;&#10;Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;&#10;&#10;&#10;feat: 重构应用入口，移除 Riverpod 依赖并引入 bootstrap&#10;&#10;- 移除 main.dart 中对 flutter_riverpod 的依赖&#10;- 引入新的 bootstrap.dart 作为应用入口&#10;- 使用 createAppRoot() 替代 ProviderScope 包装的 TodoApp&#10;- 保持对 MyApp 的导出以兼容现有测试&#10;&#10;Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;" />
+      </RewordedCommitMessageMapping>
+    </option>
+    <option name="currentCommit" value="1" />
+    <option name="onto" value="07bdf98e597b4db69fb425101e6c07e5ac077568" />
   </component>
   <component name="ProjectView">
-    <navigator currentView="ProjectPane" proportions="" version="1">
-    </navigator>
+    <navigator currentView="ProjectPane" proportions="" version="1" />
     <panes>
       <pane id="ProjectPane">
         <option name="show-excluded-files" value="false" />
       </pane>
     </panes>
   </component>
-  <component name="PropertiesComponent">
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="dart.analysis.tool.window.force.activate" value="true" />
-    <property name="show.migrate.to.gradle.popup" value="false" />
+  <component name="ProjectViewState">
+    <option name="abbreviatePackageNames" value="true" />
+    <option name="autoscrollFromSource" value="true" />
+    <option name="autoscrollToSource" value="true" />
+    <option name="compactDirectories" value="true" />
+    <option name="flattenPackages" value="true" />
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="openDirectoriesWithSingleClick" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showVisibilityIcons" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Dart Command Line App.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;Flutter Test.Todo app integration test.executor&quot;: &quot;Run&quot;,
+    &quot;Flutter Test.tests in app_test.dart.executor&quot;: &quot;Run&quot;,
+    &quot;Flutter.main.dart.executor&quot;: &quot;Run&quot;,
+    &quot;ModuleVcsDetector.initialDetectionPerformed&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.readMode.enableVisualFormatting&quot;: &quot;true&quot;,
+    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
+    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;io.flutter.project.isFirstOpen&quot;: &quot;true&quot;,
+    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
+    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  }
+}</component>
+  <component name="RunManager" selected="Flutter.main.dart">
+    <configuration name="main.dart" type="DartCommandLineRunConfigurationType" factoryName="Dart Command Line Application" temporary="true" nameIsGenerated="true">
+      <option name="filePath" value="$PROJECT_DIR$/server/bin/main.dart" />
+      <option name="workingDirectory" value="$PROJECT_DIR$/server" />
+      <method v="2" />
+    </configuration>
+    <configuration name="Todo app integration test" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testName" value="Todo app integration test" />
+      <option name="testFile" value="$PROJECT_DIR$/integration_test/app_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration name="tests in app_test.dart" type="FlutterTestConfigType" factoryName="Flutter Test" temporary="true" nameIsGenerated="true">
+      <option name="testFile" value="$PROJECT_DIR$/integration_test/app_test.dart" />
+      <option name="useRegexp" value="false" />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Flutter Test.Todo app integration test" />
+        <item itemvalue="Flutter Test.tests in app_test.dart" />
+        <item itemvalue="Dart Command Line App.main.dart" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="4fe4cfc5-e99f-4065-8e2f-de70656414fb" name="Changes" comment="" />
+      <created>1775842568023</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1775842568023</updated>
+    </task>
+    <task id="LOCAL-00001" summary="chore(config): 更新idea工作区本地配置">
+      <option name="closed" value="true" />
+      <created>1775918748379</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1775918748379</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="ToolWindowManager">
+    <editor active="true" />
+    <layout>
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+    </layout>
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="main" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="fix: 更新服务器端配置和 API 客户端&#10;&#10;- 更新 .gitignore 添加 patrol 测试文件忽略&#10;- 更新 TodoApiClient 基础 URL 为新的服务器地址&#10;- 在页面组件中添加 key 以支持 widget 测试&#10;- 调整服务器端代码格式和响应处理&#10;&#10;Co-Authored-By: Claude Sonnet 4.6 &lt;noreply@anthropic.com&gt;" />
+    <MESSAGE value="chore: 更新 IDE 配置并修复导入路径与冗余 ProviderScope&#10;&#10;- 更新 Dart SDK 路径从 fvm 切换到 homebrew 全局安装路径&#10;- 移除 LiveTodosPage 外层多余的 ProviderScope，复用 main.dart 中的顶层 ProviderScope&#10;- 修复 server/bin/main.dart 的导入路径为 package 导入方式&#10;- 更新 .idea/workspace.xml 和 todolist_ai_native.iml 的 IDE 项目配置" />
+    <MESSAGE value="chore(config): 更新idea工作区本地配置" />
+    <MESSAGE value="chore(ide): 更新 IntelliJ IDEA 工作区配置&#10;&#10;- 添加 AutoImportSettings、ChangeListManager、ClangdSettings 等组件配置&#10;- 更新 ProjectViewState 视图选项（自动滚动、紧凑目录等）&#10;- 添加 RunManager 运行配置（Flutter 测试、Dart 命令行）&#10;- 添加 XDebuggerManager 断点配置&#10;- 更新 PropertiesComponent 为 JSON 格式&#10;- 添加 Vcs.Log 和 TaskManager 组件配置" />
+    <option name="LAST_COMMIT_MESSAGE" value="chore(ide): 更新 IntelliJ IDEA 工作区配置&#10;&#10;- 添加 AutoImportSettings、ChangeListManager、ClangdSettings 等组件配置&#10;- 更新 ProjectViewState 视图选项（自动滚动、紧凑目录等）&#10;- 添加 RunManager 运行配置（Flutter 测试、Dart 命令行）&#10;- 添加 XDebuggerManager 断点配置&#10;- 更新 PropertiesComponent 为 JSON 格式&#10;- 添加 Vcs.Log 和 TaskManager 组件配置" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/src/widgets/app_shell.dart</url>
+          <line>25</line>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/src/widgets/bottom_nav_bar.dart</url>
+          <line>18</line>
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/src/provider/todo_provider.dart</url>
+          <line>24</line>
+          <option name="timeStamp" value="3" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/lib/src/provider/todo_provider.dart</url>
+          <line>23</line>
+          <option name="timeStamp" value="4" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/server/lib/server.dart</url>
+          <line>19</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/server/lib/server.dart</url>
+          <line>25</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="Dart">
+          <url>file://$PROJECT_DIR$/server/lib/server.dart</url>
+          <line>39</line>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

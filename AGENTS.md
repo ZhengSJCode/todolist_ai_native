@@ -253,3 +253,8 @@ Rules:
 5. If the app does not start cleanly, fix that before committing.
 
 ## Figma Reading Policy
+
+## Additional Documentation
+
+For information about testing, see:
+- [Patrol Testing Guide](./docs/superpowers/guides/PATROL_TESTING.md) - Guide to running end-to-end tests with the Patrol framework

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:todolist_ai_native/main.dart' as app;
+import 'package:todolist_ai_native/src/bootstrap.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -11,7 +11,11 @@ void main() {
     testWidgets('adds a project and a task through the real app UI', (
       tester,
     ) async {
-      app.main();
+      final runId = DateTime.now().millisecondsSinceEpoch;
+      final projectName = 'Codex Launch Plan $runId';
+      final taskName = 'Prepare launch copy $runId';
+
+      await tester.pumpWidget(createAppRoot());
       await tester.pumpAndSettle();
 
       await tester.tap(find.text('Get Started'));
@@ -26,7 +30,7 @@ void main() {
 
       await tester.enterText(
         find.byKey(const Key('project-name-field')),
-        'Codex Launch Plan',
+        projectName,
       );
       await tester.pumpAndSettle();
       await _dismissKeyboard(tester);
@@ -42,12 +46,20 @@ void main() {
       await tester.tap(find.byKey(const Key('project-submit-button')));
       await tester.pumpAndSettle();
 
-      await tester.scrollUntilVisible(
-        find.text('Codex Launch Plan'),
-        240,
-        scrollable: find.byType(Scrollable).first,
+      final projectsScrollable = find.descendant(
+        of: find.byKey(const Key('projects-list-view')),
+        matching: find.byType(Scrollable),
       );
-      expect(find.text('Codex Launch Plan'), findsOneWidget);
+      final createdProject = find.descendant(
+        of: find.byKey(const Key('projects-list-view')),
+        matching: find.text(projectName),
+      );
+      await tester.scrollUntilVisible(
+        createdProject,
+        240,
+        scrollable: projectsScrollable.first,
+      );
+      expect(createdProject, findsOneWidget);
 
       await tester.tap(find.byKey(const Key('nav-profile')));
       await tester.pumpAndSettle();
@@ -56,10 +68,7 @@ void main() {
       await tester.tap(find.byKey(const Key('add-task-btn')));
       await tester.pumpAndSettle();
 
-      await tester.enterText(
-        find.byType(TextField).last,
-        'Prepare launch copy',
-      );
+      await tester.enterText(find.byType(TextField).last, taskName);
       await tester.pumpAndSettle();
       await _dismissKeyboard(tester);
       await tester.ensureVisible(
@@ -74,12 +83,20 @@ void main() {
       await tester.tap(find.byKey(const Key('task-composer-submit-button')));
       await tester.pumpAndSettle();
 
-      await tester.scrollUntilVisible(
-        find.text('Prepare launch copy'),
-        180,
-        scrollable: find.byType(Scrollable).first,
+      final liveTodosScrollable = find.descendant(
+        of: find.byKey(const Key('live-todos-list-view')),
+        matching: find.byType(Scrollable),
       );
-      expect(find.text('Prepare launch copy'), findsOneWidget);
+      final createdTask = find.descendant(
+        of: find.byKey(const Key('live-todos-list-view')),
+        matching: find.text(taskName),
+      );
+      await tester.scrollUntilVisible(
+        createdTask,
+        180,
+        scrollable: liveTodosScrollable.first,
+      );
+      expect(createdTask, findsOneWidget);
     });
   });
 }

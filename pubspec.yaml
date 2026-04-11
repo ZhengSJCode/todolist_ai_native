@@ -61,6 +61,15 @@ dev_dependencies:
   # rules and activating additional ones.
   flutter_lints: ^6.0.0
   test: ^1.26.2
+  patrol: ^4.5.0
+  patrol_finders: ^3.2.0
+
+patrol:
+  app_name: todolist_ai_native
+  android:
+    package_name: com.example.todolist_ai_native
+  ios:
+    bundle_id: com.example.todolistAiNative
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec

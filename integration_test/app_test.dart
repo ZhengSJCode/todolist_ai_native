@@ -1,7 +1,7 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
-import 'package:todolist_ai_native/main.dart' as app;
+import 'package:todolist_ai_native/src/bootstrap.dart';
 
 void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
@@ -10,7 +10,7 @@ void main() {
     testWidgets('launches onboarding and navigates into the home shell', (
       tester,
     ) async {
-      app.main();
+      await tester.pumpWidget(createAppRoot());
       await tester.pumpAndSettle();
 
       expect(find.text("Let's Start!"), findsOneWidget);

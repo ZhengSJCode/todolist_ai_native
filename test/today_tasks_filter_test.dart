@@ -31,7 +31,9 @@ void main() {
       expect(find.text('Market Research'), findsNothing);
     });
 
-    testWidgets('tapping In Progress shows only in-progress tasks', (tester) async {
+    testWidgets('tapping In Progress shows only in-progress tasks', (
+      tester,
+    ) async {
       await tester.pumpWidget(
         const ProviderScope(child: MaterialApp(home: TodayTasksPage())),
       );

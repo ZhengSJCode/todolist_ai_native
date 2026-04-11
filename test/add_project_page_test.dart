@@ -16,14 +16,14 @@ void main() {
     testWidgets('shows Add button', (tester) async {
       await tester.pumpWidget(wrap(const AddProjectPage()));
       await tester.pumpAndSettle();
-      expect(find.text('Add'), findsOneWidget);
+      expect(find.byKey(const Key('project-submit-button')), findsOneWidget);
     });
 
     testWidgets('Add button is disabled when name is empty', (tester) async {
       await tester.pumpWidget(wrap(const AddProjectPage()));
       await tester.pumpAndSettle();
       final btn = tester.widget<FilledButton>(
-        find.widgetWithText(FilledButton, 'Add'),
+        find.byKey(const Key('project-submit-button')),
       );
       expect(btn.onPressed, isNull);
     });
@@ -39,7 +39,7 @@ void main() {
       await tester.pump();
 
       final btn = tester.widget<FilledButton>(
-        find.widgetWithText(FilledButton, 'Add'),
+        find.byKey(const Key('project-submit-button')),
       );
       expect(btn.onPressed, isNotNull);
     });
@@ -58,7 +58,7 @@ void main() {
         'Work Project',
       );
       await tester.pump();
-      await tester.tap(find.text('Add'));
+      await tester.tap(find.byKey(const Key('project-submit-button')));
       await tester.pumpAndSettle();
 
       expect(added, 'Work Project');

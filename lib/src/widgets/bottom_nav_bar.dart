@@ -7,10 +7,12 @@ class TodoBottomNavBar extends StatelessWidget {
     super.key,
     required this.currentTab,
     required this.onSelected,
+    required this.onAddPressed,
   });
 
   final AppTab currentTab;
   final ValueChanged<AppTab> onSelected;
+  final VoidCallback onAddPressed;
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +78,7 @@ class TodoBottomNavBar extends StatelessWidget {
               right: 0,
               child: Center(
                 child: GestureDetector(
-                  onTap: () => onSelected(AppTab.add),
+                  onTap: onAddPressed,
                   child: Container(
                     width: 58,
                     height: 58,

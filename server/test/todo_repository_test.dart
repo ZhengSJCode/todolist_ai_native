@@ -1,5 +1,5 @@
 import 'package:test/test.dart';
-import '../lib/todo_repository.dart';
+import 'package:todolist_server/todo_repository.dart';
 
 void main() {
   late TodoRepository repo;
@@ -35,7 +35,11 @@ void main() {
 
     test('update changes fields and returns updated todo', () {
       final original = repo.create(title: 'Old title');
-      final updated = repo.update(original.id, title: 'New title', completed: true);
+      final updated = repo.update(
+        original.id,
+        title: 'New title',
+        completed: true,
+      );
       expect(updated, isNotNull);
       expect(updated!.title, 'New title');
       expect(updated.completed, isTrue);

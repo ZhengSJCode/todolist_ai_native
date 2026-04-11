@@ -47,11 +47,9 @@ class _FakeTodoState extends AutoDisposeAsyncNotifier<List<TodoModel>>
 }
 
 ProviderScope _scope() => ProviderScope(
-      overrides: [
-        todoListProvider.overrideWith(_FakeTodoState.new),
-      ],
-      child: const MaterialApp(home: LiveTodosPage()),
-    );
+  overrides: [todoListProvider.overrideWith(_FakeTodoState.new)],
+  child: const MaterialApp(home: LiveTodosPage()),
+);
 
 void main() {
   group('LiveTodosPage — full UI interaction', () {
@@ -91,14 +89,14 @@ void main() {
       expect(find.byIcon(Icons.radio_button_unchecked_rounded), findsOneWidget);
 
       // Tap to toggle
-      await tester.tap(find.text('Learn Flutter'));
+      await tester.tap(find.byIcon(Icons.radio_button_unchecked_rounded));
       await tester.pumpAndSettle();
 
       // Should be completed icon
       expect(find.byIcon(Icons.check_circle_rounded), findsOneWidget);
     });
 
-    testWidgets('long pressing task opens edit dialog', (tester) async {
+    testWidgets('tapping edit icon opens edit dialog', (tester) async {
       await tester.pumpWidget(_scope());
       await tester.pumpAndSettle();
 
@@ -108,7 +106,7 @@ void main() {
       await tester.tap(find.text('Add'));
       await tester.pumpAndSettle();
 
-      await tester.longPress(find.text('Old title'));
+      await tester.tap(find.byIcon(Icons.edit_outlined));
       await tester.pumpAndSettle();
 
       expect(find.text('Edit Task'), findsOneWidget);
@@ -136,10 +134,7 @@ void main() {
 
       expect(find.text('Delete me'), findsOneWidget);
 
-      await tester.drag(
-        find.text('Delete me'),
-        const Offset(-500, 0),
-      );
+      await tester.drag(find.text('Delete me'), const Offset(-500, 0));
       await tester.pumpAndSettle();
 
       expect(find.text('Delete me'), findsNothing);

@@ -1,91 +1,79 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
+import '../provider/project_provider.dart';
 import '../widgets/project_progress_card.dart';
 import '../widgets/task_group_tile.dart';
 
-class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+class HomePage extends ConsumerWidget {
+  const HomePage({
+    super.key,
+    this.onOpenNotifications,
+    this.onViewTasks,
+    this.onOpenProjects,
+  });
+
+  final VoidCallback? onOpenNotifications;
+  final VoidCallback? onViewTasks;
+  final VoidCallback? onOpenProjects;
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final projects = ref.watch(projectsProvider);
+    final highlights = projects.take(2).toList();
+
     return ListView(
       padding: const EdgeInsets.fromLTRB(22, 20, 22, 8),
-      children: const [
-        _HomeHeader(),
-        SizedBox(height: 24),
-        _HeroProgressCard(),
-        SizedBox(height: 24),
-        _SectionHeader(title: 'In Progress', count: '6'),
-        SizedBox(height: 16),
+      children: [
+        _HomeHeader(onOpenNotifications: onOpenNotifications),
+        const SizedBox(height: 24),
+        _HeroProgressCard(onViewTasks: onViewTasks),
+        const SizedBox(height: 24),
+        _SectionHeader(title: 'In Progress', count: '${highlights.length}'),
+        const SizedBox(height: 16),
         SingleChildScrollView(
           scrollDirection: Axis.horizontal,
           child: Row(
             children: [
-              ProjectProgressCard(
-                tag: 'Office Project',
-                title: 'Grocery shopping app\ndesign',
-                progress: 0.70,
-                progressLabel: '70%',
-                backgroundColor: Color(0xFFE7F3FF),
-                accentColor: Color(0xFF0087FF),
-              ),
-              SizedBox(width: 16),
-              ProjectProgressCard(
-                tag: 'Personal Project',
-                title: 'Uber Eats redesign\nchallange',
-                progress: 0.52,
-                progressLabel: '52%',
-                backgroundColor: Color(0xFFFFE9E1),
-                accentColor: Color(0xFFFF7D53),
-              ),
+              for (var index = 0; index < highlights.length; index++) ...[
+                ProjectProgressCard(
+                  tag: highlights[index].tag,
+                  title: highlights[index].name.replaceFirst(' app ', ' app\n'),
+                  progress: highlights[index].progress,
+                  progressLabel: highlights[index].progressLabel,
+                  backgroundColor: highlights[index].backgroundColor,
+                  accentColor: highlights[index].accentColor,
+                  onTap: onOpenProjects,
+                ),
+                if (index < highlights.length - 1) const SizedBox(width: 16),
+              ],
             ],
           ),
         ),
-        SizedBox(height: 24),
-        _SectionHeader(title: 'Task Groups', count: '4'),
-        SizedBox(height: 16),
-        TaskGroupTile(
-          title: 'Office Project',
-          subtitle: '23 Tasks',
-          progressLabel: '70%',
-          icon: Icons.work_outline_rounded,
-          iconBackground: Color(0xFFFFE4F2),
-          accentColor: Color(0xFFF96DB7),
-        ),
-        SizedBox(height: 16),
-        TaskGroupTile(
-          title: 'Personal Project',
-          subtitle: '30 Tasks',
-          progressLabel: '52%',
-          icon: Icons.sell_outlined,
-          iconBackground: Color(0xFFEDE4FF),
-          accentColor: Color(0xFF8F63FF),
-        ),
-        SizedBox(height: 16),
-        TaskGroupTile(
-          title: 'Daily Study',
-          subtitle: '30 Tasks',
-          progressLabel: '87%',
-          icon: Icons.menu_book_outlined,
-          iconBackground: Color(0xFFFFE6D4),
-          accentColor: Color(0xFFFF8A3D),
-        ),
-        SizedBox(height: 16),
-        TaskGroupTile(
-          title: 'Daily Study',
-          subtitle: '3 Tasks',
-          progressLabel: '87%',
-          icon: Icons.wb_sunny_outlined,
-          iconBackground: Color(0xFFFFF6D4),
-          accentColor: Color(0xFFF0C400),
-        ),
+        const SizedBox(height: 24),
+        _SectionHeader(title: 'Task Groups', count: '${projects.length}'),
+        const SizedBox(height: 16),
+        for (var index = 0; index < projects.length; index++) ...[
+          TaskGroupTile(
+            title: projects[index].tag,
+            subtitle: projects[index].subtitle,
+            progressLabel: projects[index].progressLabel,
+            icon: projects[index].icon,
+            iconBackground: projects[index].iconBackground,
+            accentColor: projects[index].accentColor,
+            onTap: onOpenProjects,
+          ),
+          if (index < projects.length - 1) const SizedBox(height: 16),
+        ],
       ],
     );
   }
 }
 
 class _HomeHeader extends StatelessWidget {
-  const _HomeHeader();
+  const _HomeHeader({this.onOpenNotifications});
+
+  final VoidCallback? onOpenNotifications;
 
   @override
   Widget build(BuildContext context) {
@@ -110,18 +98,21 @@ class _HomeHeader extends StatelessWidget {
             ],
           ),
         ),
-        Stack(
-          children: const [
-            Icon(Icons.notifications, color: Color(0xFF24252C)),
-            Positioned(
-              right: 0,
-              top: 0,
-              child: CircleAvatar(
-                radius: 4,
-                backgroundColor: Color(0xFF7D4CFF),
+        GestureDetector(
+          onTap: onOpenNotifications,
+          child: Stack(
+            children: const [
+              Icon(Icons.notifications, color: Color(0xFF24252C)),
+              Positioned(
+                right: 0,
+                top: 0,
+                child: CircleAvatar(
+                  radius: 4,
+                  backgroundColor: Color(0xFF7D4CFF),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ],
     );
@@ -129,7 +120,9 @@ class _HomeHeader extends StatelessWidget {
 }
 
 class _HeroProgressCard extends StatelessWidget {
-  const _HeroProgressCard();
+  const _HeroProgressCard({this.onViewTasks});
+
+  final VoidCallback? onViewTasks;
 
   @override
   Widget build(BuildContext context) {
@@ -164,7 +157,7 @@ class _HeroProgressCard extends StatelessWidget {
                 ),
                 const SizedBox(height: 20),
                 FilledButton(
-                  onPressed: () {},
+                  onPressed: onViewTasks,
                   style: FilledButton.styleFrom(
                     backgroundColor: Colors.white,
                     foregroundColor: const Color(0xFF5F33E1),

@@ -1,8 +1,9 @@
 import 'dart:convert';
+import 'dart:io';
+
 import 'package:http/http.dart' as http;
 import 'package:test/test.dart';
-import '../lib/server.dart';
-import 'dart:io';
+import 'package:todolist_server/server.dart';
 
 void main() {
   late HttpServer httpServer;
@@ -10,7 +11,7 @@ void main() {
 
   setUp(() async {
     httpServer = await createServer(port: 0); // OS picks a free port
-    baseUrl = 'http://localhost:${httpServer.port}';
+    baseUrl = 'http://192.168.67.235:${httpServer.port}';
   });
 
   tearDown(() async {
@@ -52,13 +53,15 @@ void main() {
 
   group('PATCH /todos/:id', () {
     test('returns 200 and updated todo', () async {
-      final created = jsonDecode(
-        (await http.post(
-          Uri.parse('$baseUrl/todos'),
-          headers: {'content-type': 'application/json'},
-          body: jsonEncode({'title': 'Original'}),
-        )).body,
-      ) as Map<String, dynamic>;
+      final created =
+          jsonDecode(
+                (await http.post(
+                  Uri.parse('$baseUrl/todos'),
+                  headers: {'content-type': 'application/json'},
+                  body: jsonEncode({'title': 'Original'}),
+                )).body,
+              )
+              as Map<String, dynamic>;
 
       final res = await http.patch(
         Uri.parse('$baseUrl/todos/${created['id']}'),
@@ -83,15 +86,19 @@ void main() {
 
   group('DELETE /todos/:id', () {
     test('returns 204 when deleted', () async {
-      final created = jsonDecode(
-        (await http.post(
-          Uri.parse('$baseUrl/todos'),
-          headers: {'content-type': 'application/json'},
-          body: jsonEncode({'title': 'Delete me'}),
-        )).body,
-      ) as Map<String, dynamic>;
+      final created =
+          jsonDecode(
+                (await http.post(
+                  Uri.parse('$baseUrl/todos'),
+                  headers: {'content-type': 'application/json'},
+                  body: jsonEncode({'title': 'Delete me'}),
+                )).body,
+              )
+              as Map<String, dynamic>;
 
-      final res = await http.delete(Uri.parse('$baseUrl/todos/${created['id']}'));
+      final res = await http.delete(
+        Uri.parse('$baseUrl/todos/${created['id']}'),
+      );
       expect(res.statusCode, 204);
 
       // Verify it's gone

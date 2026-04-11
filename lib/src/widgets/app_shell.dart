@@ -1,26 +1,31 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 import '../app.dart';
+import '../pages/add_project_page.dart';
+import '../pages/home_page.dart';
+import '../pages/live_todos_page.dart';
+import '../pages/projects_page.dart';
+import '../pages/today_tasks_page.dart';
+import '../provider/project_provider.dart';
 import 'bottom_nav_bar.dart';
+import 'notifications_sheet.dart';
 
-class AppShell extends StatefulWidget {
+class AppShell extends ConsumerStatefulWidget {
   const AppShell({super.key});
 
   @override
-  State<AppShell> createState() => _AppShellState();
+  ConsumerState<AppShell> createState() => _AppShellState();
 }
 
-class _AppShellState extends State<AppShell> {
+class _AppShellState extends ConsumerState<AppShell> {
   AppTab _currentTab = AppTab.home;
-  late final Map<AppTab, AppScreenConfig> _screens = buildScreens();
 
   @override
   Widget build(BuildContext context) {
-    final current = _screens[_currentTab]!;
-
     return Scaffold(
       body: DecoratedBox(
-        decoration: const BoxDecoration(color: Colors.white),
+        decoration: const BoxDecoration(color: Color(0xFFFCFBFF)),
         child: Stack(
           children: [
             const _ScreenGlow(
@@ -38,12 +43,13 @@ class _AppShellState extends State<AppShell> {
               color: Color(0x188FD8FF),
               size: 240,
             ),
-            SafeArea(child: current.body),
+            SafeArea(child: _buildCurrentScreen()),
           ],
         ),
       ),
       bottomNavigationBar: TodoBottomNavBar(
         currentTab: _currentTab,
+        onAddPressed: _openAddProject,
         onSelected: (tab) {
           setState(() {
             _currentTab = tab;
@@ -51,6 +57,53 @@ class _AppShellState extends State<AppShell> {
         },
       ),
     );
+  }
+
+  Widget _buildCurrentScreen() {
+    switch (_currentTab) {
+      case AppTab.home:
+        return HomePage(
+          onOpenNotifications: _openNotifications,
+          onViewTasks: () => _selectTab(AppTab.calendar),
+          onOpenProjects: () => _selectTab(AppTab.documents),
+        );
+      case AppTab.calendar:
+        return TodayTasksPage(
+          onBack: () => _selectTab(AppTab.home),
+          onOpenNotifications: _openNotifications,
+        );
+      case AppTab.documents:
+        return ProjectsPage(
+          onAddProject: _openAddProject,
+          onOpenNotifications: _openNotifications,
+        );
+      case AppTab.profile:
+        return LiveTodosPage(onOpenNotifications: _openNotifications);
+    }
+  }
+
+  void _selectTab(AppTab tab) {
+    setState(() {
+      _currentTab = tab;
+    });
+  }
+
+  Future<void> _openAddProject() async {
+    final result = await Navigator.of(context).push<AddProjectResult>(
+      MaterialPageRoute(builder: (_) => const AddProjectPage()),
+    );
+    if (!mounted || result == null) {
+      return;
+    }
+
+    ref
+        .read(projectsProvider.notifier)
+        .addProject(name: result.name, accentColor: result.color);
+    _selectTab(AppTab.documents);
+  }
+
+  void _openNotifications() {
+    showNotificationsSheet(context);
   }
 }
 

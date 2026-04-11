@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../widgets/onboarding_illustration.dart';
+
 /// Onboarding / entry screen — Figma node 101:100.
 class LetsStartPage extends StatelessWidget {
   const LetsStartPage({super.key, this.onStart});
@@ -11,7 +13,7 @@ class LetsStartPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFCFBFF),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 32),
@@ -19,20 +21,7 @@ class LetsStartPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               const Spacer(flex: 2),
-              // Illustration placeholder
-              Container(
-                width: 240,
-                height: 240,
-                decoration: const BoxDecoration(
-                  color: Color(0xFFF1EBFF),
-                  shape: BoxShape.circle,
-                ),
-                child: const Icon(
-                  Icons.check_circle_outline_rounded,
-                  size: 100,
-                  color: Color(0xFF5F33E1),
-                ),
-              ),
+              const OnboardingIllustration(),
               const SizedBox(height: 40),
               const Text(
                 "Let's Start!",

@@ -1,4 +1,6 @@
+import 'package:flutter_riverpod/flutter_riverpod.dart' show Ref;
 import 'package:riverpod_annotation/riverpod_annotation.dart';
+
 import '../api/todo_api_client.dart';
 import '../api/todo_model.dart';
 
@@ -6,7 +8,7 @@ part 'todo_provider.g.dart';
 
 /// Provides the singleton [TodoApiClient].
 @riverpod
-TodoApiClient todoApiClient(TodoApiClientRef ref) {
+TodoApiClient todoApiClient(Ref ref) {
   return TodoApiClient();
 }
 

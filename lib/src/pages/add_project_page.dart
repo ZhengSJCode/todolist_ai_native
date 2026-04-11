@@ -4,6 +4,13 @@ import 'package:flutter/material.dart';
 ///
 /// Simple form: project name field + optional category color + Add button.
 /// [onAdd] is called with the trimmed project name when Add is tapped.
+class AddProjectResult {
+  const AddProjectResult({required this.name, required this.color});
+
+  final String name;
+  final Color color;
+}
+
 class AddProjectPage extends StatefulWidget {
   const AddProjectPage({super.key, this.onAdd});
 
@@ -44,7 +51,7 @@ class _AddProjectPageState extends State<AddProjectPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFFCFBFF),
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 22),
@@ -74,6 +81,62 @@ class _AddProjectPageState extends State<AddProjectPage> {
                 ],
               ),
               const SizedBox(height: 32),
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(22),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Color(0x12000000),
+                      blurRadius: 24,
+                      offset: Offset(0, 10),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 44,
+                      height: 44,
+                      decoration: BoxDecoration(
+                        color: _colors[_selectedColorIndex].withAlpha(34),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Icon(
+                        Icons.layers_outlined,
+                        color: _colors[_selectedColorIndex],
+                      ),
+                    ),
+                    const SizedBox(width: 14),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Project preview',
+                            style: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w600,
+                              color: Color(0xFF24252C),
+                            ),
+                          ),
+                          SizedBox(height: 4),
+                          Text(
+                            'Choose a name and accent color before you create it.',
+                            style: TextStyle(
+                              fontSize: 12,
+                              color: Color(0xFF6E6A7C),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
               const Text(
                 'Project Name',
                 style: TextStyle(
@@ -123,7 +186,9 @@ class _AddProjectPageState extends State<AddProjectPage> {
                           shape: BoxShape.circle,
                           border: _selectedColorIndex == i
                               ? Border.all(
-                                  color: const Color(0xFF24252C), width: 2.5)
+                                  color: const Color(0xFF24252C),
+                                  width: 2.5,
+                                )
                               : null,
                         ),
                       ),
@@ -139,8 +204,12 @@ class _AddProjectPageState extends State<AddProjectPage> {
                 child: FilledButton(
                   onPressed: _hasName
                       ? () {
-                          widget.onAdd?.call(_nameController.text.trim());
-                          Navigator.maybePop(context);
+                          final result = AddProjectResult(
+                            name: _nameController.text.trim(),
+                            color: _colors[_selectedColorIndex],
+                          );
+                          widget.onAdd?.call(result.name);
+                          Navigator.maybePop(context, result);
                         }
                       : null,
                   style: FilledButton.styleFrom(

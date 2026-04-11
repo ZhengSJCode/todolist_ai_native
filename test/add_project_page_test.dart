@@ -4,45 +4,59 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:todolist_ai_native/src/pages/add_project_page.dart';
 
 void main() {
-  Widget _wrap(Widget child) => ProviderScope(child: MaterialApp(home: child));
+  Widget wrap(Widget child) => ProviderScope(child: MaterialApp(home: child));
 
   group('AddProjectPage', () {
     testWidgets('shows form with project name field', (tester) async {
-      await tester.pumpWidget(_wrap(const AddProjectPage()));
+      await tester.pumpWidget(wrap(const AddProjectPage()));
       await tester.pumpAndSettle();
       expect(find.byKey(const Key('project-name-field')), findsOneWidget);
     });
 
     testWidgets('shows Add button', (tester) async {
-      await tester.pumpWidget(_wrap(const AddProjectPage()));
+      await tester.pumpWidget(wrap(const AddProjectPage()));
       await tester.pumpAndSettle();
       expect(find.text('Add'), findsOneWidget);
     });
 
     testWidgets('Add button is disabled when name is empty', (tester) async {
-      await tester.pumpWidget(_wrap(const AddProjectPage()));
+      await tester.pumpWidget(wrap(const AddProjectPage()));
       await tester.pumpAndSettle();
-      final btn = tester.widget<FilledButton>(find.widgetWithText(FilledButton, 'Add'));
+      final btn = tester.widget<FilledButton>(
+        find.widgetWithText(FilledButton, 'Add'),
+      );
       expect(btn.onPressed, isNull);
     });
 
     testWidgets('Add button enables after typing a name', (tester) async {
-      await tester.pumpWidget(_wrap(const AddProjectPage()));
+      await tester.pumpWidget(wrap(const AddProjectPage()));
       await tester.pumpAndSettle();
 
-      await tester.enterText(find.byKey(const Key('project-name-field')), 'New Project');
+      await tester.enterText(
+        find.byKey(const Key('project-name-field')),
+        'New Project',
+      );
       await tester.pump();
 
-      final btn = tester.widget<FilledButton>(find.widgetWithText(FilledButton, 'Add'));
+      final btn = tester.widget<FilledButton>(
+        find.widgetWithText(FilledButton, 'Add'),
+      );
       expect(btn.onPressed, isNotNull);
     });
 
-    testWidgets('tapping Add with valid name calls onAdd callback', (tester) async {
+    testWidgets('tapping Add with valid name calls onAdd callback', (
+      tester,
+    ) async {
       String? added;
-      await tester.pumpWidget(_wrap(AddProjectPage(onAdd: (name) => added = name)));
+      await tester.pumpWidget(
+        wrap(AddProjectPage(onAdd: (name) => added = name)),
+      );
       await tester.pumpAndSettle();
 
-      await tester.enterText(find.byKey(const Key('project-name-field')), 'Work Project');
+      await tester.enterText(
+        find.byKey(const Key('project-name-field')),
+        'Work Project',
+      );
       await tester.pump();
       await tester.tap(find.text('Add'));
       await tester.pumpAndSettle();

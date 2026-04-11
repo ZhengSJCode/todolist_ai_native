@@ -48,6 +48,11 @@ void main() {
     expect(find.text('In Progress'), findsWidgets);
     expect(find.text('Completed'), findsOneWidget);
     expect(find.text('Competitive Analysis'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('Create Low-fidelity Wireframe'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('Create Low-fidelity Wireframe'), findsOneWidget);
   });
 }

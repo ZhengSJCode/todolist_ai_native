@@ -1,6 +1,8 @@
-import 'lib/server.dart';
+import 'dart:io';
+
+import 'package:todolist_server/server.dart';
 
 void main() async {
-  final server = await createServer(port: 8080);
-  print('Server running on http://localhost:${server.port}');
+  final server = await createServer(port: 9001);
+  stdout.writeln('Server running on http://192.168.67.235:${server.port}');
 }

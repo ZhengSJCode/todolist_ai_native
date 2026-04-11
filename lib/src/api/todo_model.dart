@@ -11,6 +11,7 @@ class TodoModel with _$TodoModel {
     required String title,
     @Default('') String description,
     @Default(false) bool completed,
+    String? projectId,
   }) = _TodoModel;
 
   factory TodoModel.fromJson(Map<String, dynamic> json) =>

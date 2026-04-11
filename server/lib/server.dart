@@ -17,7 +17,8 @@ Future<HttpServer> createServer({
 
   // GET /todos
   router.get('/todos', (Request req) {
-    final todos = repo.list().map((t) => t.toJson()).toList();
+    final projectId = req.url.queryParameters['projectId'];
+    final todos = repo.list(projectId: projectId).map((t) => t.toJson()).toList();
     return _json(todos, statusCode: 200);
   });
 
@@ -31,6 +32,7 @@ Future<HttpServer> createServer({
     final todo = repo.create(
       title: title.trim(),
       description: (body['description'] as String?) ?? '',
+      projectId: body['projectId'] as String?,
     );
     return _json(todo.toJson(), statusCode: 201);
   });
@@ -43,6 +45,7 @@ Future<HttpServer> createServer({
       title: body['title'] as String?,
       description: body['description'] as String?,
       completed: body['completed'] as bool?,
+      projectId: body['projectId'] as String?,
     );
     if (updated == null) return _error(404, 'not found');
     return _json(updated.toJson(), statusCode: 200);

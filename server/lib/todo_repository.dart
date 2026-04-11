@@ -6,14 +6,22 @@ class TodoRepository {
   final _store = <String, Todo>{};
   final _uuid = const Uuid();
 
-  List<Todo> list() => _store.values.toList()
+  List<Todo> list({String? projectId}) {
+    final todos = _store.values;
+    if (projectId != null) {
+      return todos.where((t) => t.projectId == projectId).toList()
         ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+    }
+    return todos.toList()
+      ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+  }
 
-  Todo create({required String title, String description = ''}) {
+  Todo create({required String title, String description = '', String? projectId}) {
     final todo = Todo(
       id: _uuid.v4(),
       title: title,
       description: description,
+      projectId: projectId,
     );
     _store[todo.id] = todo;
     return todo;
@@ -25,6 +33,7 @@ class TodoRepository {
     String? title,
     String? description,
     bool? completed,
+    String? projectId,
   }) {
     final existing = _store[id];
     if (existing == null) return null;
@@ -32,6 +41,7 @@ class TodoRepository {
       title: title,
       description: description,
       completed: completed,
+      projectId: projectId,
     );
     _store[id] = updated;
     return updated;

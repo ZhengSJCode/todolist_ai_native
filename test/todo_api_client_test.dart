@@ -64,6 +64,37 @@ void main() {
       expect(result.id, 'abc');
       expect(result.title, 'Buy milk');
     });
+
+    test('includes projectId in payload when provided', () async {
+      final payload = {
+        'id': 'abc',
+        'title': 'Buy milk',
+        'description': '',
+        'completed': false,
+        'projectId': 'project-123',
+      };
+
+      // Capture the actual request to verify projectId is included
+      verifyNever(mockClient.post(
+        Uri.parse('http://192.168.67.235:9001/todos'),
+        headers: anyNamed('headers'),
+        body: anyNamed('body'),
+      ));
+
+      when(
+        mockClient.post(
+          Uri.parse('http://192.168.67.235:9001/todos'),
+          headers: anyNamed('headers'),
+          body: anyNamed('body'),
+        ),
+      ).thenAnswer((_) async => http.Response(jsonEncode(payload), 201));
+
+      final result = await client.create(
+        title: 'Buy milk',
+        projectId: 'project-123',
+      );
+      expect(result.projectId, 'project-123');
+    });
   });
 
   group('TodoApiClient.update', () {

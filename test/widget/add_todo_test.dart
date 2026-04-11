@@ -15,7 +15,7 @@ class _MockTodoState extends AutoDisposeAsyncNotifier<List<TodoModel>>
   Future<List<TodoModel>> build() async => [];
 
   @override
-  Future<void> create({required String title, String description = ''}) async {
+  Future<void> create({required String title, String description = '', String? projectId}) async {
     createCalled = true;
     createdTitle = title;
     createdDescription = description;

@@ -1,30 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
 
-@immutable
-class ProjectSummary {
-  const ProjectSummary({
-    required this.id,
-    required this.name,
-    required this.tag,
-    required this.taskCount,
-    required this.progress,
-    required this.accentColor,
-    required this.backgroundColor,
-    required this.iconBackground,
-    required this.icon,
-  });
+part 'project_provider.freezed.dart';
 
-  final String id;
-  final String name;
-  final String tag;
-  final int taskCount;
-  final double progress;
-  final Color accentColor;
-  final Color backgroundColor;
-  final Color iconBackground;
-  final IconData icon;
+/// Freezed data class for a project item.
+@freezed
+class ProjectSummary with _$ProjectSummary {
+  const factory ProjectSummary({
+    required String id,
+    required String name,
+    required String tag,
+    required int taskCount,
+    required double progress,
+    required Color accentColor,
+    required Color backgroundColor,
+    required Color iconBackground,
+    required IconData icon,
+  }) = _ProjectSummary;
 
+  // No need for fromJson since we don't serialize projects in this version
+}
+
+extension ProjectSummaryExtension on ProjectSummary {
   String get progressLabel => '${(progress * 100).round()}%';
   String get subtitle => '$taskCount Tasks';
 }
@@ -116,6 +114,38 @@ class ProjectsNotifier extends Notifier<List<ProjectSummary>> {
         icon: icon,
       ),
     ];
+  }
+
+  void updateProject({
+    required String id,
+    String? name,
+    Color? accentColor,
+  }) {
+    final normalized = name?.trim();
+    if (normalized != null && normalized.isEmpty) {
+      return;
+    }
+
+    state = state
+        .map(
+          (project) => project.id == id
+              ? project.copyWith(
+                  name: normalized ?? project.name,
+                  accentColor: accentColor ?? project.accentColor,
+                  backgroundColor: accentColor != null
+                      ? _soften(accentColor, 0.84)
+                      : project.backgroundColor,
+                  iconBackground: accentColor != null
+                      ? _soften(accentColor, 0.72)
+                      : project.iconBackground,
+                )
+              : project,
+        )
+        .toList();
+  }
+
+  void deleteProject(String id) {
+    state = state.where((project) => project.id != id).toList();
   }
 
   Color _soften(Color color, double factor) {

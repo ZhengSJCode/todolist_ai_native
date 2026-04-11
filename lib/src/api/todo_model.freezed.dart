@@ -25,6 +25,7 @@ mixin _$TodoModel {
   String get title => throw _privateConstructorUsedError;
   String get description => throw _privateConstructorUsedError;
   bool get completed => throw _privateConstructorUsedError;
+  String? get projectId => throw _privateConstructorUsedError;
 
   /// Serializes this TodoModel to a JSON map.
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,7 +42,13 @@ abstract class $TodoModelCopyWith<$Res> {
   factory $TodoModelCopyWith(TodoModel value, $Res Function(TodoModel) then) =
       _$TodoModelCopyWithImpl<$Res, TodoModel>;
   @useResult
-  $Res call({String id, String title, String description, bool completed});
+  $Res call({
+    String id,
+    String title,
+    String description,
+    bool completed,
+    String? projectId,
+  });
 }
 
 /// @nodoc
@@ -63,6 +70,7 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
     Object? title = null,
     Object? description = null,
     Object? completed = null,
+    Object? projectId = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -82,6 +90,10 @@ class _$TodoModelCopyWithImpl<$Res, $Val extends TodoModel>
                 ? _value.completed
                 : completed // ignore: cast_nullable_to_non_nullable
                       as bool,
+            projectId: freezed == projectId
+                ? _value.projectId
+                : projectId // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -97,7 +109,13 @@ abstract class _$$TodoModelImplCopyWith<$Res>
   ) = __$$TodoModelImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String id, String title, String description, bool completed});
+  $Res call({
+    String id,
+    String title,
+    String description,
+    bool completed,
+    String? projectId,
+  });
 }
 
 /// @nodoc
@@ -118,6 +136,7 @@ class __$$TodoModelImplCopyWithImpl<$Res>
     Object? title = null,
     Object? description = null,
     Object? completed = null,
+    Object? projectId = freezed,
   }) {
     return _then(
       _$TodoModelImpl(
@@ -137,6 +156,10 @@ class __$$TodoModelImplCopyWithImpl<$Res>
             ? _value.completed
             : completed // ignore: cast_nullable_to_non_nullable
                   as bool,
+        projectId: freezed == projectId
+            ? _value.projectId
+            : projectId // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -150,6 +173,7 @@ class _$TodoModelImpl implements _TodoModel {
     required this.title,
     this.description = '',
     this.completed = false,
+    this.projectId,
   });
 
   factory _$TodoModelImpl.fromJson(Map<String, dynamic> json) =>
@@ -165,10 +189,12 @@ class _$TodoModelImpl implements _TodoModel {
   @override
   @JsonKey()
   final bool completed;
+  @override
+  final String? projectId;
 
   @override
   String toString() {
-    return 'TodoModel(id: $id, title: $title, description: $description, completed: $completed)';
+    return 'TodoModel(id: $id, title: $title, description: $description, completed: $completed, projectId: $projectId)';
   }
 
   @override
@@ -181,13 +207,15 @@ class _$TodoModelImpl implements _TodoModel {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.completed, completed) ||
-                other.completed == completed));
+                other.completed == completed) &&
+            (identical(other.projectId, projectId) ||
+                other.projectId == projectId));
   }
 
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, id, title, description, completed);
+      Object.hash(runtimeType, id, title, description, completed, projectId);
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.
@@ -209,6 +237,7 @@ abstract class _TodoModel implements TodoModel {
     required final String title,
     final String description,
     final bool completed,
+    final String? projectId,
   }) = _$TodoModelImpl;
 
   factory _TodoModel.fromJson(Map<String, dynamic> json) =
@@ -222,6 +251,8 @@ abstract class _TodoModel implements TodoModel {
   String get description;
   @override
   bool get completed;
+  @override
+  String? get projectId;
 
   /// Create a copy of TodoModel
   /// with the given fields replaced by the non-null parameter values.

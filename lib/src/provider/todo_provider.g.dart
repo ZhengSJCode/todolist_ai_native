@@ -6,7 +6,7 @@ part of 'todo_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todoApiClientHash() => r'4802523570a52697c0aed6eb022096bab17146a2';
+String _$todoApiClientHash() => r'f94c8d88746b2f12b3bee3ef5c8a1e4ce8826594';
 
 /// Provides the singleton [TodoApiClient].
 ///
@@ -25,7 +25,27 @@ final todoApiClientProvider = AutoDisposeProvider<TodoApiClient>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TodoApiClientRef = AutoDisposeProviderRef<TodoApiClient>;
-String _$todoListHash() => r'8165e93f0b91ceda64c46b37beca2233042ea520';
+String _$currentProjectIdHash() => r'07bebd4b6eee9766bbe17ba8047e248ae9f4fcee';
+
+/// Provider for tracking the currently selected project ID.
+/// Returns null when no project is selected (show all todos).
+///
+/// Copied from [currentProjectId].
+@ProviderFor(currentProjectId)
+final currentProjectIdProvider = AutoDisposeProvider<String?>.internal(
+  currentProjectId,
+  name: r'currentProjectIdProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$currentProjectIdHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+@Deprecated('Will be removed in 3.0. Use Ref instead')
+// ignore: unused_element
+typedef CurrentProjectIdRef = AutoDisposeProviderRef<String?>;
+String _$todoListHash() => r'01a23ce0cb97ab9e2a5f8d72a948ac76c4f12d59';
 
 /// AsyncNotifier that owns the todo list state.
 ///

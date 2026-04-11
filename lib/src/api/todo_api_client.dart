@@ -25,11 +25,21 @@ class TodoApiClient {
   Future<TodoModel> create({
     required String title,
     String description = '',
+    String? projectId,
   }) async {
+    final body = <String, dynamic>{
+      'title': title,
+      'description': description,
+    };
+
+    if (projectId != null) {
+      body['projectId'] = projectId;
+    }
+
     final res = await _client.post(
       Uri.parse('$_base/todos'),
       headers: {'content-type': 'application/json'},
-      body: jsonEncode({'title': title, 'description': description}),
+      body: jsonEncode(body),
     );
     _assertOk(res, expected: 201);
     return TodoModel.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
@@ -40,11 +50,13 @@ class TodoApiClient {
     String? title,
     String? description,
     bool? completed,
+    String? projectId,
   }) async {
     final body = <String, dynamic>{};
     if (title != null) body['title'] = title;
     if (description != null) body['description'] = description;
     if (completed != null) body['completed'] = completed;
+    if (projectId != null) body['projectId'] = projectId;
 
     final res = await _client.patch(
       Uri.parse('$_base/todos/$id'),

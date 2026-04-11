@@ -17,12 +17,20 @@ TodoApiClient todoApiClient(Ref ref) {
 class TodoList extends _$TodoList {
   @override
   Future<List<TodoModel>> build() async {
-    return ref.read(todoApiClientProvider).list();
+    final allTodos = await ref.read(todoApiClientProvider).list();
+
+    // Filter todos by projectId if a project is selected
+    final projectId = ref.watch(currentProjectIdProvider);
+    if (projectId != null) {
+      return allTodos.where((todo) => todo.projectId == projectId).toList();
+    }
+
+    return allTodos;
   }
 
-  Future<void> create({required String title, String description = ''}) async {
+  Future<void> create({required String title, String description = '', String? projectId}) async {
     final client = ref.read(todoApiClientProvider);
-    final newTodo = await client.create(title: title, description: description);
+    final newTodo = await client.create(title: title, description: description, projectId: projectId);
     state = AsyncData([...state.valueOrNull ?? [], newTodo]);
   }
 
@@ -53,4 +61,12 @@ class TodoList extends _$TodoList {
           .toList(),
     );
   }
+}
+
+/// Provider for tracking the currently selected project ID.
+/// Returns null when no project is selected (show all todos).
+@riverpod
+String? currentProjectId(Ref ref) {
+  // This will be updated by the UI when a project is selected
+  return null;
 }

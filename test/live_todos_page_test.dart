@@ -12,7 +12,7 @@ class _FakeTodoState extends AutoDisposeAsyncNotifier<List<TodoModel>>
   Future<List<TodoModel>> build() async => [];
 
   @override
-  Future<void> create({required String title, String description = ''}) async {
+  Future<void> create({required String title, String description = '', String? projectId}) async {
     final next = TodoModel(
       id: DateTime.now().microsecondsSinceEpoch.toString(),
       title: title,

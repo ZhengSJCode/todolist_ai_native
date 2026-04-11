@@ -120,13 +120,32 @@ class ProjectsPage extends ConsumerWidget {
         _SectionHeader(count: projects.length),
         const SizedBox(height: 16),
         for (final project in projects) ...[
-          TaskGroupTile(
-            title: project.name,
-            subtitle: project.subtitle,
-            progressLabel: project.progressLabel,
-            icon: project.icon,
-            iconBackground: project.iconBackground,
-            accentColor: project.accentColor,
+          Dismissible(
+            key: Key(project.id),
+            direction: DismissDirection.endToStart,
+            background: Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 20),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(15),
+              ),
+              child: const Icon(
+                Icons.delete,
+                color: Colors.white,
+              ),
+            ),
+            onDismissed: (_) {
+              ref.read(projectsProvider.notifier).deleteProject(project.id);
+            },
+            child: TaskGroupTile(
+              title: project.name,
+              subtitle: project.subtitle,
+              progressLabel: project.progressLabel,
+              icon: project.icon,
+              iconBackground: project.iconBackground,
+              accentColor: project.accentColor,
+            ),
           ),
           const SizedBox(height: 16),
         ],

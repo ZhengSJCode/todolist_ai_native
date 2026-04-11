@@ -140,6 +140,7 @@ class _TodoTile extends ConsumerWidget {
       child: GestureDetector(
         onTap: () =>
             ref.read(todoListProvider.notifier).toggleCompleted(todo),
+        onLongPress: () => _showEditDialog(context, ref),
         child: Container(
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
@@ -182,6 +183,37 @@ class _TodoTile extends ConsumerWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  void _showEditDialog(BuildContext context, WidgetRef ref) {
+    final controller = TextEditingController(text: todo.title);
+    showDialog<void>(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        title: const Text('Edit Task'),
+        content: TextField(
+          controller: controller,
+          autofocus: true,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: const Text('Cancel'),
+          ),
+          FilledButton(
+            onPressed: () async {
+              final newTitle = controller.text.trim();
+              if (newTitle.isEmpty) return;
+              Navigator.pop(ctx);
+              await ref
+                  .read(todoListProvider.notifier)
+                  .editTitle(todo.id, newTitle);
+            },
+            child: const Text('Save'),
+          ),
+        ],
       ),
     );
   }

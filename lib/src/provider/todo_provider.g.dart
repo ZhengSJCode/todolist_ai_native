@@ -25,7 +25,7 @@ final todoApiClientProvider = AutoDisposeProvider<TodoApiClient>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef TodoApiClientRef = AutoDisposeProviderRef<TodoApiClient>;
-String _$todoListHash() => r'78f7e2287c6fd9ce53044d9cdfe28bcd23f8af9a';
+String _$todoListHash() => r'8165e93f0b91ceda64c46b37beca2233042ea520';
 
 /// AsyncNotifier that owns the todo list state.
 ///

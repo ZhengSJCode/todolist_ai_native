@@ -41,4 +41,14 @@ class TodoList extends _$TodoList {
       (state.valueOrNull ?? []).where((t) => t.id != id).toList(),
     );
   }
+
+  Future<void> editTitle(String id, String newTitle) async {
+    final client = ref.read(todoApiClientProvider);
+    final updated = await client.update(id, title: newTitle);
+    state = AsyncData(
+      (state.valueOrNull ?? [])
+          .map((t) => t.id == updated.id ? updated : t)
+          .toList(),
+    );
+  }
 }

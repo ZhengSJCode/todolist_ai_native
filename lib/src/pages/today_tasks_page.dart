@@ -2,63 +2,100 @@ import 'package:flutter/material.dart';
 
 import '../widgets/task_detail_card.dart';
 
-class TodayTasksPage extends StatelessWidget {
+enum _TaskFilter { all, todo, inProgress, completed }
+
+/// Static mock data for today's tasks display (Figma 101:265).
+const _kTasks = [
+  (
+    category: 'Grocery shopping app design',
+    title: 'Market Research',
+    time: '10:00 AM',
+    status: 'Done',
+    icon: Icons.work_outline_rounded,
+    iconBackground: Color(0xFFFFE4F2),
+    statusBackground: Color(0xFFEDE8FF),
+    statusColor: Color(0xFF5F33E1),
+  ),
+  (
+    category: 'Grocery shopping app design',
+    title: 'Competitive Analysis',
+    time: '12:00 PM',
+    status: 'In Progress',
+    icon: Icons.work_outline_rounded,
+    iconBackground: Color(0xFFFFE4F2),
+    statusBackground: Color(0xFFFFE9E1),
+    statusColor: Color(0xFFFF7D53),
+  ),
+  (
+    category: 'Uber Eats redesign challange',
+    title: 'Create Low-fidelity Wireframe',
+    time: '07:00 PM',
+    status: 'To-do',
+    icon: Icons.sell_outlined,
+    iconBackground: Color(0xFFEDE4FF),
+    statusBackground: Color(0xFFE3F2FF),
+    statusColor: Color(0xFF0087FF),
+  ),
+  (
+    category: 'About design sprint',
+    title: 'How to pitch a Design Sprint',
+    time: '09:00 PM',
+    status: 'To-do',
+    icon: Icons.menu_book_outlined,
+    iconBackground: Color(0xFFFFE6D4),
+    statusBackground: Color(0xFFE3F2FF),
+    statusColor: Color(0xFF0087FF),
+  ),
+];
+
+bool _matchFilter(_TaskFilter filter, String status) {
+  return switch (filter) {
+    _TaskFilter.all => true,
+    _TaskFilter.todo => status == 'To-do',
+    _TaskFilter.inProgress => status == 'In Progress',
+    _TaskFilter.completed => status == 'Done',
+  };
+}
+
+class TodayTasksPage extends StatefulWidget {
   const TodayTasksPage({super.key});
 
   @override
+  State<TodayTasksPage> createState() => _TodayTasksPageState();
+}
+
+class _TodayTasksPageState extends State<TodayTasksPage> {
+  _TaskFilter _filter = _TaskFilter.all;
+
+  @override
   Widget build(BuildContext context) {
+    final visible = _kTasks.where((t) => _matchFilter(_filter, t.status)).toList();
+
     return ListView(
       padding: const EdgeInsets.fromLTRB(22, 20, 22, 8),
-      children: const [
-        _TodayHeader(),
-        SizedBox(height: 24),
-        _DateChipsRow(),
-        SizedBox(height: 20),
-        _FilterRow(),
-        SizedBox(height: 28),
-        TaskDetailCard(
-          category: 'Grocery shopping app design',
-          title: 'Market Research',
-          time: '10:00 AM',
-          status: 'Done',
-          icon: Icons.work_outline_rounded,
-          iconBackground: Color(0xFFFFE4F2),
-          statusBackground: Color(0xFFEDE8FF),
-          statusColor: Color(0xFF5F33E1),
+      children: [
+        const _TodayHeader(),
+        const SizedBox(height: 24),
+        const _DateChipsRow(),
+        const SizedBox(height: 20),
+        _FilterRow(
+          current: _filter,
+          onSelected: (f) => setState(() => _filter = f),
         ),
-        SizedBox(height: 16),
-        TaskDetailCard(
-          category: 'Grocery shopping app design',
-          title: 'Competitive Analysis',
-          time: '12:00 PM',
-          status: 'In Progress',
-          icon: Icons.work_outline_rounded,
-          iconBackground: Color(0xFFFFE4F2),
-          statusBackground: Color(0xFFFFE9E1),
-          statusColor: Color(0xFFFF7D53),
-        ),
-        SizedBox(height: 16),
-        TaskDetailCard(
-          category: 'Uber Eats redesign challange',
-          title: 'Create Low-fidelity Wireframe',
-          time: '07:00 PM',
-          status: 'To-do',
-          icon: Icons.sell_outlined,
-          iconBackground: Color(0xFFEDE4FF),
-          statusBackground: Color(0xFFE3F2FF),
-          statusColor: Color(0xFF0087FF),
-        ),
-        SizedBox(height: 16),
-        TaskDetailCard(
-          category: 'About design sprint',
-          title: 'How to pitch a Design Sprint',
-          time: '09:00 PM',
-          status: 'To-do',
-          icon: Icons.menu_book_outlined,
-          iconBackground: Color(0xFFFFE6D4),
-          statusBackground: Color(0xFFE3F2FF),
-          statusColor: Color(0xFF0087FF),
-        ),
+        const SizedBox(height: 28),
+        for (final t in visible) ...[
+          TaskDetailCard(
+            category: t.category,
+            title: t.title,
+            time: t.time,
+            status: t.status,
+            icon: t.icon,
+            iconBackground: t.iconBackground,
+            statusBackground: t.statusBackground,
+            statusColor: t.statusColor,
+          ),
+          const SizedBox(height: 16),
+        ],
       ],
     );
   }
@@ -74,7 +111,7 @@ class _TodayHeader extends StatelessWidget {
         Icon(Icons.arrow_back, color: Color(0xFF24252C)),
         Spacer(),
         Text(
-          'Today’s Tasks',
+          'Today\u2019s Tasks',
           style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600),
         ),
         Spacer(),
@@ -125,28 +162,19 @@ class _DateChipsRow extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
-                  entry.$1,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: isSelected ? Colors.white : const Color(0xFF24252C),
-                  ),
-                ),
-                Text(
-                  entry.$2,
-                  style: TextStyle(
-                    fontSize: 19,
-                    fontWeight: FontWeight.w600,
-                    color: isSelected ? Colors.white : const Color(0xFF24252C),
-                  ),
-                ),
-                Text(
-                  entry.$3,
-                  style: TextStyle(
-                    fontSize: 11,
-                    color: isSelected ? Colors.white : const Color(0xFF24252C),
-                  ),
-                ),
+                Text(entry.$1,
+                    style: TextStyle(
+                        fontSize: 11,
+                        color: isSelected ? Colors.white : const Color(0xFF24252C))),
+                Text(entry.$2,
+                    style: TextStyle(
+                        fontSize: 19,
+                        fontWeight: FontWeight.w600,
+                        color: isSelected ? Colors.white : const Color(0xFF24252C))),
+                Text(entry.$3,
+                    style: TextStyle(
+                        fontSize: 11,
+                        color: isSelected ? Colors.white : const Color(0xFF24252C))),
               ],
             ),
           );
@@ -157,36 +185,42 @@ class _DateChipsRow extends StatelessWidget {
 }
 
 class _FilterRow extends StatelessWidget {
-  const _FilterRow();
+  const _FilterRow({required this.current, required this.onSelected});
+
+  final _TaskFilter current;
+  final ValueChanged<_TaskFilter> onSelected;
 
   @override
   Widget build(BuildContext context) {
-    final filters = const [
-      ('All', true),
-      ('To do', false),
-      ('In Progress', false),
-      ('Completed', false),
+    final chips = [
+      ('All', _TaskFilter.all, const Key('filter-all')),
+      ('To do', _TaskFilter.todo, const Key('filter-todo')),
+      ('In Progress', _TaskFilter.inProgress, const Key('filter-in-progress')),
+      ('Completed', _TaskFilter.completed, const Key('filter-completed')),
     ];
 
     return SingleChildScrollView(
       scrollDirection: Axis.horizontal,
       child: Row(
         children: [
-          for (final filter in filters) ...[
-            Container(
-              decoration: BoxDecoration(
-                color: filter.$2
-                    ? const Color(0xFF5F33E1)
-                    : const Color(0xFFF1EBFF),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
-              child: Text(
-                filter.$1,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: filter.$2 ? FontWeight.w600 : FontWeight.w400,
-                  color: filter.$2 ? Colors.white : const Color(0xFF5F33E1),
+          for (final chip in chips) ...[
+            GestureDetector(
+              key: chip.$3,
+              onTap: () => onSelected(chip.$2),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: current == chip.$2
+                      ? const Color(0xFF5F33E1)
+                      : const Color(0xFFF1EBFF),                  borderRadius: BorderRadius.circular(12),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 10),
+                child: Text(
+                  chip.$1,
+                  style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: current == chip.$2 ? FontWeight.w600 : FontWeight.w400,
+                    color: current == chip.$2 ? Colors.white : const Color(0xFF5F33E1),
+                  ),
                 ),
               ),
             ),

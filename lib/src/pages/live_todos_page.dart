@@ -134,6 +134,11 @@ class LiveTodosPage extends ConsumerWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: FilledButton(
+                      key: Key(
+                        todo == null
+                            ? 'task-composer-submit-button'
+                            : 'task-composer-save-button',
+                      ),
                       onPressed: () async {
                         final title = controller.text.trim();
                         if (title.isEmpty) {
@@ -469,6 +474,7 @@ class _TodoTile extends ConsumerWidget {
                   const SizedBox(width: 12),
                   Expanded(
                     child: FilledButton(
+                      key: const Key('task-edit-submit-button'),
                       onPressed: () async {
                         final newTitle = controller.text.trim();
                         if (newTitle.isEmpty) {

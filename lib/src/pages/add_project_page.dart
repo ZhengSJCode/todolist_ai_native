@@ -53,127 +53,126 @@ class _AddProjectPageState extends State<AddProjectPage> {
     return Scaffold(
       backgroundColor: const Color(0xFFFCFBFF),
       body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 22),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const SizedBox(height: 24),
-              // Header
-              Row(
-                children: [
-                  IconButton(
-                    icon: const Icon(Icons.close),
-                    onPressed: () => Navigator.maybePop(context),
-                  ),
-                  const Expanded(
-                    child: Text(
-                      'Add Project',
-                      textAlign: TextAlign.center,
-                      style: TextStyle(
-                        fontSize: 19,
-                        fontWeight: FontWeight.w600,
-                        color: Color(0xFF24252C),
-                      ),
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(22, 24, 22, 32),
+          keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
+          children: [
+            Row(
+              children: [
+                IconButton(
+                  icon: const Icon(Icons.close),
+                  onPressed: () => Navigator.maybePop(context),
+                ),
+                const Expanded(
+                  child: Text(
+                    'Add Project',
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: 19,
+                      fontWeight: FontWeight.w600,
+                      color: Color(0xFF24252C),
                     ),
                   ),
-                  const SizedBox(width: 48), // balance close button
+                ),
+                const SizedBox(width: 48),
+              ],
+            ),
+            const SizedBox(height: 32),
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(18),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(22),
+                boxShadow: const [
+                  BoxShadow(
+                    color: Color(0x12000000),
+                    blurRadius: 24,
+                    offset: Offset(0, 10),
+                  ),
                 ],
               ),
-              const SizedBox(height: 32),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(18),
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(22),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Color(0x12000000),
-                      blurRadius: 24,
-                      offset: Offset(0, 10),
+              child: Row(
+                children: [
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: _colors[_selectedColorIndex].withAlpha(34),
+                      borderRadius: BorderRadius.circular(16),
                     ),
-                  ],
-                ),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 44,
-                      height: 44,
-                      decoration: BoxDecoration(
-                        color: _colors[_selectedColorIndex].withAlpha(34),
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                      child: Icon(
-                        Icons.layers_outlined,
-                        color: _colors[_selectedColorIndex],
-                      ),
+                    child: Icon(
+                      Icons.layers_outlined,
+                      color: _colors[_selectedColorIndex],
                     ),
-                    const SizedBox(width: 14),
-                    const Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Project preview',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xFF24252C),
-                            ),
-                          ),
-                          SizedBox(height: 4),
-                          Text(
-                            'Choose a name and accent color before you create it.',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Color(0xFF6E6A7C),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 24),
-              const Text(
-                'Project Name',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF6E6A7C),
-                ),
-              ),
-              const SizedBox(height: 8),
-              TextField(
-                key: const Key('project-name-field'),
-                controller: _nameController,
-                decoration: InputDecoration(
-                  hintText: 'Enter project name',
-                  filled: true,
-                  fillColor: const Color(0xFFF5F5F8),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(12),
-                    borderSide: BorderSide.none,
                   ),
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 16,
-                    vertical: 14,
+                  const SizedBox(width: 14),
+                  const Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Project preview',
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w600,
+                            color: Color(0xFF24252C),
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Text(
+                          'Choose a name and accent color before you create it.',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: Color(0xFF6E6A7C),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Project Name',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF6E6A7C),
+              ),
+            ),
+            const SizedBox(height: 8),
+            TextField(
+              key: const Key('project-name-field'),
+              controller: _nameController,
+              decoration: InputDecoration(
+                hintText: 'Enter project name',
+                filled: true,
+                fillColor: const Color(0xFFF5F5F8),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide.none,
+                ),
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 14,
                 ),
               ),
-              const SizedBox(height: 24),
-              const Text(
-                'Category Color',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w600,
-                  color: Color(0xFF6E6A7C),
-                ),
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Category Color',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w600,
+                color: Color(0xFF6E6A7C),
               ),
-              const SizedBox(height: 12),
-              Row(
+            ),
+            const SizedBox(height: 12),
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
                 children: [
                   for (int i = 0; i < _colors.length; i++) ...[
                     GestureDetector(
@@ -197,37 +196,37 @@ class _AddProjectPageState extends State<AddProjectPage> {
                   ],
                 ],
               ),
-              const Spacer(),
-              SizedBox(
-                width: double.infinity,
-                height: 52,
-                child: FilledButton(
-                  onPressed: _hasName
-                      ? () {
-                          final result = AddProjectResult(
-                            name: _nameController.text.trim(),
-                            color: _colors[_selectedColorIndex],
-                          );
-                          widget.onAdd?.call(result.name);
-                          Navigator.maybePop(context, result);
-                        }
-                      : null,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFF5F33E1),
-                    disabledBackgroundColor: const Color(0xFFDDD6F8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: const Text(
-                    'Add',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+            ),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: double.infinity,
+              height: 52,
+              child: FilledButton(
+                key: const Key('project-submit-button'),
+                onPressed: _hasName
+                    ? () {
+                        final result = AddProjectResult(
+                          name: _nameController.text.trim(),
+                          color: _colors[_selectedColorIndex],
+                        );
+                        widget.onAdd?.call(result.name);
+                        Navigator.maybePop(context, result);
+                      }
+                    : null,
+                style: FilledButton.styleFrom(
+                  backgroundColor: const Color(0xFF5F33E1),
+                  disabledBackgroundColor: const Color(0xFFDDD6F8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
+                child: const Text(
+                  'Add',
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
               ),
-              const SizedBox(height: 32),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

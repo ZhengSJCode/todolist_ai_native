@@ -35,6 +35,7 @@ class LiveTodosPage extends ConsumerWidget {
               data: (todos) => todos.isEmpty
                   ? _EmptyState(onAdd: () => _showTaskComposer(context, ref))
                   : ListView.separated(
+                      key: const Key('live-todos-list-view'),
                       padding: const EdgeInsets.fromLTRB(22, 20, 22, 8),
                       itemCount: todos.length,
                       separatorBuilder: (_, index) =>

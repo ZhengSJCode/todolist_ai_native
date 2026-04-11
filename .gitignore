@@ -108,6 +108,7 @@ unlinked_spec.ds
 # Coverage
 coverage/
 .worktrees/
+patrol_test/test_bundle.dart
 
 # Symbols
 app.*.symbols

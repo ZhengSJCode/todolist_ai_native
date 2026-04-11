@@ -29,20 +29,20 @@ class Todo {
   }
 
   Map<String, dynamic> toJson() => {
-        'id': id,
-        'title': title,
-        'description': description,
-        'completed': completed,
-        'createdAt': createdAt.toIso8601String(),
-      };
+    'id': id,
+    'title': title,
+    'description': description,
+    'completed': completed,
+    'createdAt': createdAt.toIso8601String(),
+  };
 
   factory Todo.fromJson(Map<String, dynamic> json) => Todo(
-        id: json['id'] as String,
-        title: json['title'] as String,
-        description: (json['description'] as String?) ?? '',
-        completed: (json['completed'] as bool?) ?? false,
-        createdAt: json['createdAt'] != null
-            ? DateTime.parse(json['createdAt'] as String)
-            : DateTime.now(),
-      );
+    id: json['id'] as String,
+    title: json['title'] as String,
+    description: (json['description'] as String?) ?? '',
+    completed: (json['completed'] as bool?) ?? false,
+    createdAt: json['createdAt'] != null
+        ? DateTime.parse(json['createdAt'] as String)
+        : DateTime.now(),
+  );
 }

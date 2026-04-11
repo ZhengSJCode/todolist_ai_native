@@ -15,6 +15,7 @@ class ProjectsPage extends ConsumerWidget {
     final projects = ref.watch(projectsProvider);
 
     return ListView(
+      key: const Key('projects-list-view'),
       padding: const EdgeInsets.fromLTRB(22, 20, 22, 8),
       children: [
         Row(

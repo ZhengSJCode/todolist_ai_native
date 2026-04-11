@@ -4,13 +4,11 @@ import 'todo_model.dart';
 
 /// REST client for the todo backend.
 ///
-/// [baseUrl] defaults to `http://localhost:8080` for local development.
+/// [baseUrl] defaults to `http://192.168.67.235:9001` for local development.
 class TodoApiClient {
-  TodoApiClient({
-    http.Client? httpClient,
-    String? baseUrl,
-  })  : _client = httpClient ?? http.Client(),
-        _base = baseUrl ?? 'http://localhost:8080';
+  TodoApiClient({http.Client? httpClient, String? baseUrl})
+    : _client = httpClient ?? http.Client(),
+      _base = baseUrl ?? 'http://192.168.67.235:9001';
 
   final http.Client _client;
   final String _base;
@@ -19,10 +17,15 @@ class TodoApiClient {
     final res = await _client.get(Uri.parse('$_base/todos'));
     _assertOk(res);
     final data = jsonDecode(res.body) as List<dynamic>;
-    return data.map((e) => TodoModel.fromJson(e as Map<String, dynamic>)).toList();
+    return data
+        .map((e) => TodoModel.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
-  Future<TodoModel> create({required String title, String description = ''}) async {
+  Future<TodoModel> create({
+    required String title,
+    String description = '',
+  }) async {
     final res = await _client.post(
       Uri.parse('$_base/todos'),
       headers: {'content-type': 'application/json'},

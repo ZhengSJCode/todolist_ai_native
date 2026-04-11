@@ -21,10 +21,12 @@ class TaskDetailsPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final statusLabel = todo.completed ? 'Done' : 'To-do';
-    final statusColor =
-        todo.completed ? const Color(0xFF5F33E1) : const Color(0xFF0087FF);
-    final statusBackground =
-        todo.completed ? const Color(0xFFEDE8FF) : const Color(0xFFE3F2FF);
+    final statusColor = todo.completed
+        ? const Color(0xFF5F33E1)
+        : const Color(0xFF0087FF);
+    final statusBackground = todo.completed
+        ? const Color(0xFFEDE8FF)
+        : const Color(0xFFE3F2FF);
 
     return Scaffold(
       backgroundColor: const Color(0xFFF5F5F8),
@@ -53,7 +55,10 @@ class TaskDetailsPage extends StatelessWidget {
                   ),
                   IconButton(
                     key: const Key('delete-todo-btn'),
-                    icon: const Icon(Icons.delete_outline, color: Color(0xFFFF5252)),
+                    icon: const Icon(
+                      Icons.delete_outline,
+                      color: Color(0xFFFF5252),
+                    ),
                     onPressed: onDelete,
                   ),
                 ],
@@ -72,7 +77,10 @@ class TaskDetailsPage extends StatelessWidget {
                         color: statusBackground,
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 4,
+                      ),
                       child: Text(
                         statusLabel,
                         style: TextStyle(
@@ -113,12 +121,17 @@ class TaskDetailsPage extends StatelessWidget {
                       child: FilledButton.icon(
                         key: const Key('toggle-complete-btn'),
                         onPressed: onToggleComplete,
-                        icon: Icon(todo.completed
-                            ? Icons.refresh_rounded
-                            : Icons.check_circle_outline_rounded),
+                        icon: Icon(
+                          todo.completed
+                              ? Icons.refresh_rounded
+                              : Icons.check_circle_outline_rounded,
+                        ),
                         label: Text(
                           todo.completed ? 'Mark as To-do' : 'Mark as Done',
-                          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                          style: const TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w600,
+                          ),
                         ),
                         style: FilledButton.styleFrom(
                           backgroundColor: const Color(0xFF5F33E1),

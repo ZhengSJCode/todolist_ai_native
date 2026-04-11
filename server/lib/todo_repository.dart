@@ -7,7 +7,7 @@ class TodoRepository {
   final _uuid = const Uuid();
 
   List<Todo> list() => _store.values.toList()
-    ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
+        ..sort((a, b) => a.createdAt.compareTo(b.createdAt));
 
   Todo create({required String title, String description = ''}) {
     final todo = Todo(

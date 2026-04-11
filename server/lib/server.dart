@@ -59,21 +59,25 @@ Future<HttpServer> createServer({
       .addMiddleware(logRequests())
       .addHandler(router.call);
 
-  final server = await shelf_io.serve(handler, InternetAddress.loopbackIPv4, port);
+  final server = await shelf_io.serve(
+    handler,
+    InternetAddress('192.168.67.235'),
+    port,
+  );
   return server;
 }
 
 Response _json(dynamic data, {int statusCode = 200}) => Response(
-      statusCode,
-      body: jsonEncode(data),
-      headers: {'content-type': 'application/json'},
-    );
+  statusCode,
+  body: jsonEncode(data),
+  headers: {'content-type': 'application/json'},
+);
 
 Response _error(int status, String message) => Response(
-      status,
-      body: jsonEncode({'error': message}),
-      headers: {'content-type': 'application/json'},
-    );
+  status,
+  body: jsonEncode({'error': message}),
+  headers: {'content-type': 'application/json'},
+);
 
 Future<Map<String, dynamic>> _parseBody(Request req) async {
   final body = await req.readAsString();

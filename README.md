@@ -36,6 +36,50 @@ Run the app on Web:
 flutter run -d chrome
 ```
 
+## Testing & Coverage
+
+This project uses test-first TDD development. All tests must pass before committing (enforced by husky).
+
+### Run all tests
+
+```bash
+flutter test
+```
+
+### Run tests with coverage
+
+```bash
+flutter test --coverage
+```
+
+This generates a coverage report in `coverage/lcov.info`.
+
+### View coverage report (HTML)
+
+Install lcov and generate HTML report:
+
+```bash
+# Install lcov (macOS)
+brew install lcov
+
+# Or on Ubuntu/Debian
+sudo apt-get install lcov
+
+# Generate HTML report
+genhtml coverage/lcov.info -o coverage/html
+
+# Open in browser
+open coverage/html/index.html  # macOS
+# or
+xdg-open coverage/html/index.html  # Linux
+```
+
+### Coverage goals
+
+- Target overall line coverage: >80%
+- Critical business logic: >90%
+- All tests must pass (100% pass rate)
+
 ## Git Hooks
 
 This repository uses `husky` to run `flutter test` before `git commit`.

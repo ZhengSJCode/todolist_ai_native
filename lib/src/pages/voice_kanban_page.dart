@@ -83,7 +83,7 @@ class _VoiceKanbanPageState extends ConsumerState<VoiceKanbanPage> {
                     const SizedBox(width: 8),
                     ElevatedButton(
                       key: const Key('btn_save'),
-                      onPressed: draftsAsync.value?.isEmpty ?? true ? null : _handleSave,
+                      onPressed: (draftsAsync.hasValue && !(draftsAsync.valueOrNull?.isEmpty ?? true)) ? _handleSave : null,
                       child: const Text('保存'),
                     ),
                   ],
@@ -96,8 +96,8 @@ class _VoiceKanbanPageState extends ConsumerState<VoiceKanbanPage> {
           if (draftsAsync.isLoading)
             const CircularProgressIndicator()
           else if (draftsAsync.hasError)
-            Text('解析错误: Bad request', style: const TextStyle(color: Colors.red))
-          else if (draftsAsync.value != null && draftsAsync.value!.isNotEmpty)
+            Text('解析错误: ${draftsAsync.error}', style: const TextStyle(color: Colors.red))
+          else if (draftsAsync.valueOrNull != null && draftsAsync.valueOrNull!.isNotEmpty)
             Container(
               padding: const EdgeInsets.all(8.0),
               color: Colors.grey.shade100,
@@ -105,7 +105,7 @@ class _VoiceKanbanPageState extends ConsumerState<VoiceKanbanPage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text('预览解析结果:', style: TextStyle(fontWeight: FontWeight.bold)),
-                  ...draftsAsync.value!.map((draft) => ListTile(
+                  ...draftsAsync.valueOrNull!.map((draft) => ListTile(
                     leading: Chip(label: Text(draft.type.name)),
                     title: Text(draft.content),
                     subtitle: draft.value != null ? Text('${draft.value} ${draft.unit ?? ""}') : null,

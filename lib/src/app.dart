@@ -12,4 +12,4 @@ class MyApp extends StatelessWidget {
   }
 }
 
-enum AppTab { home, calendar, documents, profile }
+enum AppTab { home, calendar, documents, profile, voiceKanban }

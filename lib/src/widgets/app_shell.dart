@@ -7,6 +7,7 @@ import '../pages/home_page.dart';
 import '../pages/live_todos_page.dart';
 import '../pages/projects_page.dart';
 import '../pages/today_tasks_page.dart';
+import '../pages/voice_kanban_page.dart';
 import '../provider/project_provider.dart';
 import 'bottom_nav_bar.dart';
 import 'notifications_sheet.dart';
@@ -79,6 +80,8 @@ class _AppShellState extends ConsumerState<AppShell> {
         );
       case AppTab.profile:
         return LiveTodosPage(onOpenNotifications: _openNotifications);
+      case AppTab.voiceKanban:
+        return const VoiceKanbanPage();
     }
   }
 

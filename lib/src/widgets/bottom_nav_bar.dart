@@ -55,6 +55,13 @@ class TodoBottomNavBar extends StatelessWidget {
                     ),
                     const Spacer(),
                     _NavItem(
+                      key: const Key('nav-voice-kanban'),
+                      semanticLabel: 'Voice Kanban',
+                      icon: Icons.list_alt,
+                      selected: currentTab == AppTab.voiceKanban,
+                      onTap: () => onSelected(AppTab.voiceKanban),
+                    ),
+                    _NavItem(
                       key: const Key('nav-documents'),
                       semanticLabel: 'Documents',
                       icon: Icons.description_outlined,

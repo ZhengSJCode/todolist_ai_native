@@ -1,10 +1,64 @@
 import 'package:uuid/uuid.dart';
 import 'todo.dart';
+import 'voice_kanban_models.dart';
 
 /// In-memory repository for Todo items.
 class TodoRepository {
   final _store = <String, Todo>{};
+  final _rawEntries = <String, RawEntry>{};
+  final _parsedItems = <String, ParsedItem>{};
   final _uuid = const Uuid();
+
+  // --- Voice Kanban ---
+
+  CreateEntryResult createEntry({
+    required String rawText,
+    required String sourceType,
+    required List<ParsedDraft> drafts,
+  }) {
+    final entryId = _uuid.v4();
+    final now = DateTime.now();
+
+    final rawEntry = RawEntry(
+      id: entryId,
+      sourceType: sourceType,
+      rawText: rawText,
+      createdAt: now,
+    );
+    _rawEntries[entryId] = rawEntry;
+
+    final items = drafts.map((d) {
+      return ParsedItem(
+        id: _uuid.v4(),
+        rawEntryId: entryId,
+        type: d.type,
+        content: d.content,
+        title: d.title,
+        value: d.value,
+        unit: d.unit,
+        createdAt: now,
+      );
+    }).toList();
+
+    for (var item in items) {
+      _parsedItems[item.id] = item;
+    }
+
+    return CreateEntryResult(rawEntry: rawEntry, items: items);
+  }
+
+  List<ParsedItem> listItems({String? type}) {
+    var items = _parsedItems.values.toList();
+
+    if (type != null && type != 'all') {
+      items = items.where((i) => i.type == type).toList();
+    }
+
+    items.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    return items;
+  }
+
+  // --- Projects ---
 
   List<Todo> list({String? projectId}) {
     final todos = _store.values;

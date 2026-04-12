@@ -4,6 +4,7 @@ import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
 import 'todo_repository.dart';
+import 'voice_kanban_parser.dart';
 
 /// Creates and starts an HTTP server bound to [port].
 /// If [port] is 0, the OS will pick a free port.
@@ -56,6 +57,63 @@ Future<HttpServer> createServer({
     final deleted = repo.delete(id);
     if (!deleted) return _error(404, 'not found');
     return Response(204);
+  });
+
+  // POST /parse
+  router.post('/parse', (Request req) async {
+    final body = await _parseBody(req);
+    final rawText = body['rawText'] as String?;
+    final sourceType = body['sourceType'] as String? ?? 'text';
+
+    if (sourceType != 'text') {
+      return _error(400, 'Invalid sourceType, only "text" is supported');
+    }
+
+    if (rawText == null || rawText.trim().isEmpty) {
+      return _error(400, 'rawText is required and cannot be empty');
+    }
+
+    final parser = RuleBasedEntryParser();
+    final drafts = await parser.parse(rawText);
+
+    return _json({'items': drafts.map((d) => d.toJson()).toList()}, statusCode: 200);
+  });
+
+  // POST /entries
+  router.post('/entries', (Request req) async {
+    final body = await _parseBody(req);
+    final rawText = body['rawText'] as String?;
+    final sourceType = body['sourceType'] as String? ?? 'text';
+
+    if (sourceType != 'text') {
+      return _error(400, 'Invalid sourceType, only "text" is supported');
+    }
+
+    if (rawText == null || rawText.trim().isEmpty) {
+      return _error(400, 'rawText is required and cannot be empty');
+    }
+
+    final parser = RuleBasedEntryParser();
+    final drafts = await parser.parse(rawText);
+
+    final result = repo.createEntry(
+      rawText: rawText.trim(),
+      sourceType: sourceType,
+      drafts: drafts,
+    );
+
+    return _json(result.toJson(), statusCode: 201);
+  });
+
+  // GET /items
+  router.get('/items', (Request req) {
+    final type = req.url.queryParameters['type'];
+    if (type != null && type != 'all' && type != 'task' && type != 'metric' && type != 'note') {
+      return _error(400, 'Invalid type parameter');
+    }
+
+    final items = repo.listItems(type: type);
+    return _json(items.map((i) => i.toJson()).toList(), statusCode: 200);
   });
 
   final handler = const Pipeline()

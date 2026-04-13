@@ -6,6 +6,8 @@ The current repository mainly contains the Flutter client scaffold plus project 
 
 ## Current Status
 
+[![Coverage Status](https://img.shields.io/badge/coverage-80.6%25-yellowgreen)](coverage/html/index.html)
+
 1. Flutter app scaffold exists in `lib/`, `test/`, and platform folders.
 2. Product, architecture, and execution docs live under `docs/`.
 3. The implementation workflow is test-first TDD.
@@ -74,11 +76,13 @@ open coverage/html/index.html  # macOS
 xdg-open coverage/html/index.html  # Linux
 ```
 
-### Coverage goals
+### Current Coverage Status
 
-- Target overall line coverage: >80%
-- Critical business logic: >90%
-- All tests must pass (100% pass rate)
+[![Coverage Status](https://img.shields.io/badge/coverage-80.6%25-yellowgreen)](coverage/html/index.html)
+
+- **Overall line coverage**: 80.6% (966 of 1198 lines)
+- **Coverage goal**: >80% overall, >90% for critical business logic
+- **All tests must pass**: 100% pass rate required
 
 ## Git Hooks
 

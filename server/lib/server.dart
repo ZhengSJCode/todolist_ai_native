@@ -12,6 +12,7 @@ import 'voice_kanban_parser.dart';
 Future<HttpServer> createServer({
   int port = 8080,
   TodoRepository? repository,
+  InternetAddress? address,
 }) async {
   final repo = repository ?? TodoRepository();
   final router = Router();
@@ -122,7 +123,7 @@ Future<HttpServer> createServer({
 
   final server = await shelf_io.serve(
     handler,
-    InternetAddress('192.168.67.235'),
+    address ?? InternetAddress('192.168.67.235'),
     port,
   );
   return server;

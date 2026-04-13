@@ -3,6 +3,6 @@ import 'dart:io';
 import 'package:todolist_server/server.dart';
 
 void main() async {
-  final server = await createServer(port: 9001);
-  stdout.writeln('Server running on http://192.168.67.235:${server.port}');
+  final server = await createServer(port: 9001, address: InternetAddress.anyIPv4);
+  stdout.writeln('Server running on http://${server.address.host}:${server.port}');
 }

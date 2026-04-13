@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 250">
+  <!-- Red -->
+  <circle cx="150" cy="120" r="50" fill="#e74c3c" />
+  <text x="150" y="125" text-anchor="middle" fill="white" font-weight="bold" font-family="sans-serif" font-size="20">RED</text>
+  <text x="150" y="195" text-anchor="middle" fill="#333" font-family="sans-serif" font-size="14">写失败的测试</text>
+  
+  <!-- Arrow R -> G -->
+  <path d="M 210 120 Q 250 80 290 120" fill="none" stroke="#666" stroke-width="3" marker-end="url(#arrow)" />
+  
+  <!-- Green -->
+  <circle cx="400" cy="120" r="50" fill="#2ecc71" />
+  <text x="400" y="125" text-anchor="middle" fill="white" font-weight="bold" font-family="sans-serif" font-size="20">GREEN</text>
+  <text x="400" y="195" text-anchor="middle" fill="#333" font-family="sans-serif" font-size="14">让测试通过</text>
+  
+  <!-- Arrow G -> B -->
+  <path d="M 460 120 Q 500 80 540 120" fill="none" stroke="#666" stroke-width="3" marker-end="url(#arrow)" />
+  
+  <!-- Refactor (Blue) -->
+  <circle cx="650" cy="120" r="50" fill="#3498db" />
+  <text x="650" y="125" text-anchor="middle" fill="white" font-weight="bold" font-family="sans-serif" font-size="18">REFACTOR</text>
+  <text x="650" y="195" text-anchor="middle" fill="#333" font-family="sans-serif" font-size="14">重构与优化</text>
+  
+  <!-- Arrow B -> R -->
+  <path d="M 600 140 Q 400 250 200 140" fill="none" stroke="#666" stroke-width="3" marker-end="url(#arrow)" />
+  
+  <defs>
+    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+      <path d="M0,0 L0,6 L9,3 z" fill="#666" />
+    </marker>
+  </defs>
+</svg>

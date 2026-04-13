@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 200">
+  <rect width="100%" height="100%" fill="#1e1e1e" />
+  <rect x="0" y="0" width="100%" height="30" fill="#333333" />
+  <text x="20" y="20" fill="#cccccc" font-family="monospace" font-size="14">Terminal - flutter test</text>
+  
+  <text x="20" y="60" fill="#e74c3c" font-family="monospace" font-size="14">══╡ EXCEPTION CAUGHT BY FLUTTER TEST FRAMEWORK ╞════════════════════════</text>
+  <text x="20" y="80" fill="#cccccc" font-family="monospace" font-size="14">The following TestFailure was thrown running a test:</text>
+  <text x="20" y="100" fill="#cccccc" font-family="monospace" font-size="14">Expected: one widget whose render object matches golden image</text>
+  <text x="20" y="120" fill="#cccccc" font-family="monospace" font-size="14">          "goldens/home_shell.png"</text>
+  <text x="20" y="140" fill="#e74c3c" font-family="monospace" font-size="14">  Actual: _&lt;Finder&gt;</text>
+  <text x="20" y="160" fill="#e74c3c" font-family="monospace" font-size="14">   Which: Pixel test failed, 4.25% pixel difference detected.</text>
+  <text x="20" y="180" fill="#cccccc" font-family="monospace" font-size="14">          Failure feedback can be found at /test/failures/</text>
+</svg>

@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 350" width="900" height="350">
+  <rect width="100%" height="100%" fill="#ffffff" />
+  <!-- Header -->
+  <rect x="0" y="0" width="100%" height="40" fill="#336699" />
+  <text x="20" y="25" fill="white" font-family="sans-serif" font-size="18" font-weight="bold">LCOV - code coverage report</text>
+  
+  <text x="20" y="70" font-family="sans-serif" font-size="14" font-weight="bold">Current view: <tspan font-weight="normal">top level - lib/src/pages/today_tasks_page.dart</tspan></text>
+
+  <!-- Code block background -->
+  <rect x="20" y="90" width="860" height="230" fill="#f8f9fa" stroke="#ccc" stroke-width="1"/>
+
+  <g font-family="monospace" font-size="14">
+    <!-- Header row -->
+    <rect x="20" y="90" width="50" height="25" fill="#e0e0e0" />
+    <rect x="70" y="90" width="50" height="25" fill="#e0e0e0" />
+    <rect x="120" y="90" width="760" height="25" fill="#e0e0e0" />
+    <text x="30" y="107" fill="#333" font-weight="bold">Line</text>
+    <text x="80" y="107" fill="#333" font-weight="bold">Hits</text>
+    <text x="130" y="107" fill="#333" font-weight="bold">Source Code</text>
+
+    <!-- Line 151: Normal -->
+    <text x="35" y="132" fill="#999">151</text>
+    <text x="85" y="132" fill="#999">  -</text>
+    <text x="130" y="132" fill="#333">      <tspan fill="#d14">crossAxisAlignment</tspan>: CrossAxisAlignment.start,</text>
+
+    <!-- Line 152: Normal -->
+    <text x="35" y="152" fill="#999">152</text>
+    <text x="85" y="152" fill="#999">  -</text>
+    <text x="130" y="152" fill="#333">      <tspan fill="#d14">children</tspan>: [</text>
+
+    <!-- Line 153: Green (Hit) -->
+    <rect x="20" y="160" width="860" height="20" fill="#c4ffc4" />
+    <text x="35" y="175" fill="#333">153</text>
+    <text x="85" y="175" fill="#333">  3</text>
+    <text x="130" y="175" fill="#333">        _DateChipsRow(</text>
+
+    <!-- Line 154: Green (Hit) -->
+    <rect x="20" y="180" width="860" height="20" fill="#c4ffc4" />
+    <text x="35" y="195" fill="#333">154</text>
+    <text x="85" y="195" fill="#333">  3</text>
+    <text x="130" y="195" fill="#333">          selectedDay: _selectedDay,</text>
+    
+    <!-- Line 155: Red (Missed) -->
+    <rect x="20" y="200" width="860" height="20" fill="#ffc4c4" />
+    <text x="35" y="215" fill="#333">155</text>
+    <text x="85" y="215" fill="#333">  0</text>
+    <text x="130" y="215" fill="#333">          onSelected: (day) =&gt; setState(() =&gt; _selectedDay = day),</text>
+
+    <!-- Line 156: Normal -->
+    <text x="35" y="235" fill="#999">156</text>
+    <text x="85" y="235" fill="#999">  -</text>
+    <text x="130" y="235" fill="#333">        ),</text>
+
+    <!-- Line 157: Normal -->
+    <text x="35" y="255" fill="#999">157</text>
+    <text x="85" y="255" fill="#999">  -</text>
+    <text x="130" y="255" fill="#333">        <tspan fill="#d14">const</tspan> SizedBox(height: <tspan fill="#099">20</tspan>),</text>
+
+    <!-- Line 158: Green (Hit) -->
+    <rect x="20" y="265" width="860" height="20" fill="#c4ffc4" />
+    <text x="35" y="280" fill="#333">158</text>
+    <text x="85" y="280" fill="#333">  3</text>
+    <text x="130" y="280" fill="#333">        Expanded(</text>
+
+    <!-- Line 159: Green (Hit) -->
+    <rect x="20" y="285" width="860" height="20" fill="#c4ffc4" />
+    <text x="35" y="300" fill="#333">159</text>
+    <text x="85" y="300" fill="#333">  3</text>
+    <text x="130" y="300" fill="#333">          child: ListView.builder(</text>
+  </g>
+</svg>

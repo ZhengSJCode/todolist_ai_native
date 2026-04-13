@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 500" width="1000" height="500">
+  <rect width="100%" height="100%" fill="#ffffff" />
+  <!-- Header -->
+  <rect x="0" y="0" width="100%" height="60" fill="#336699" />
+  <text x="30" y="35" fill="white" font-family="sans-serif" font-size="24" font-weight="bold">LCOV - code coverage report</text>
+  
+  <text x="30" y="100" font-family="sans-serif" font-size="16" font-weight="bold">Current view: <tspan font-weight="normal">top level</tspan></text>
+  
+  <!-- Stats Box -->
+  <rect x="30" y="120" width="940" height="80" fill="#f8f9fa" stroke="#dddddd" />
+  <text x="50" y="150" font-family="sans-serif" font-size="14" fill="#333">Test: <tspan font-weight="bold">lcov.info</tspan></text>
+  <text x="50" y="175" font-family="sans-serif" font-size="14" fill="#333">Date: <tspan font-weight="bold">2026-04-13 10:55:00</tspan></text>
+  
+  <!-- Coverage bar background -->
+  <text x="500" y="150" font-family="sans-serif" font-size="14" font-weight="bold" fill="#333">Lines:</text>
+  <text x="560" y="150" font-family="sans-serif" font-size="14" font-weight="bold" fill="#a0c000">80.6 %</text>
+  <text x="630" y="150" font-family="sans-serif" font-size="14" fill="#555">(966 of 1198 lines)</text>
+
+  <!-- Table Header -->
+  <rect x="30" y="220" width="940" height="30" fill="#e9ecef" stroke="#dddddd" />
+  <text x="50" y="240" font-family="sans-serif" font-size="14" font-weight="bold" fill="#333">Directory</text>
+  <text x="650" y="240" font-family="sans-serif" font-size="14" font-weight="bold" fill="#333">Line Coverage</text>
+  
+  <!-- Directory Rows -->
+  <!-- row 1 -->
+  <rect x="30" y="250" width="940" height="30" fill="#ffffff" stroke="#dddddd" />
+  <text x="50" y="270" font-family="monospace" font-size="14" fill="#0066cc" text-decoration="underline">lib</text>
+  <rect x="500" y="257" width="100" height="15" fill="#e0e0e0" />
+  <rect x="500" y="257" width="0" height="15" fill="#d9534f" /> <!-- 0% -->
+  <text x="610" y="270" font-family="monospace" font-size="14" fill="#333">0.0 %</text>
+  <text x="680" y="270" font-family="monospace" font-size="14" fill="#555">0 / 2</text>
+
+  <!-- row 2 -->
+  <rect x="30" y="280" width="940" height="30" fill="#f8f9fa" stroke="#dddddd" />
+  <text x="50" y="300" font-family="monospace" font-size="14" fill="#0066cc" text-decoration="underline">lib/src</text>
+  <rect x="500" y="287" width="100" height="15" fill="#e0e0e0" />
+  <rect x="500" y="287" width="85" height="15" fill="#a0c000" /> <!-- 85% approximate -->
+  <text x="610" y="300" font-family="monospace" font-size="14" fill="#333">85.0 %</text>
+  <text x="680" y="300" font-family="monospace" font-size="14" fill="#555">16 / 19</text>
+
+  <!-- row 3 -->
+  <rect x="30" y="310" width="940" height="30" fill="#ffffff" stroke="#dddddd" />
+  <text x="50" y="330" font-family="monospace" font-size="14" fill="#0066cc" text-decoration="underline">lib/src/api</text>
+  <rect x="500" y="317" width="100" height="15" fill="#e0e0e0" />
+  <rect x="500" y="317" width="80" height="15" fill="#a0c000" /> <!-- 80% approximate -->
+  <text x="610" y="330" font-family="monospace" font-size="14" fill="#333">80.0 %</text>
+  <text x="680" y="330" font-family="monospace" font-size="14" fill="#555">120 / 150</text>
+
+  <!-- row 4 -->
+  <rect x="30" y="340" width="940" height="30" fill="#f8f9fa" stroke="#dddddd" />
+  <text x="50" y="360" font-family="monospace" font-size="14" fill="#0066cc" text-decoration="underline">lib/src/pages</text>
+  <rect x="500" y="347" width="100" height="15" fill="#e0e0e0" />
+  <rect x="500" y="347" width="81" height="15" fill="#a0c000" /> <!-- 81.3% approximate -->
+  <text x="610" y="360" font-family="monospace" font-size="14" fill="#333">81.3 %</text>
+  <text x="680" y="360" font-family="monospace" font-size="14" fill="#555">459 / 564</text>
+
+  <!-- row 5 -->
+  <rect x="30" y="370" width="940" height="30" fill="#ffffff" stroke="#dddddd" />
+  <text x="50" y="390" font-family="monospace" font-size="14" fill="#0066cc" text-decoration="underline">lib/src/provider</text>
+  <rect x="500" y="377" width="100" height="15" fill="#e0e0e0" />
+  <rect x="500" y="377" width="58" height="15" fill="#d9534f" /> <!-- 58.0% -->
+  <text x="610" y="390" font-family="monospace" font-size="14" fill="#333">58.0 %</text>
+  <text x="680" y="390" font-family="monospace" font-size="14" fill="#555">59 / 102</text>
+
+  <!-- row 6 -->
+  <rect x="30" y="400" width="940" height="30" fill="#f8f9fa" stroke="#dddddd" />
+  <text x="50" y="420" font-family="monospace" font-size="14" fill="#0066cc" text-decoration="underline">lib/src/theme</text>
+  <rect x="500" y="407" width="100" height="15" fill="#e0e0e0" />
+  <rect x="500" y="407" width="100" height="15" fill="#20b2aa" /> <!-- 100% -->
+  <text x="610" y="420" font-family="monospace" font-size="14" fill="#333">100.0 %</text>
+  <text x="680" y="420" font-family="monospace" font-size="14" fill="#555">15 / 15</text>
+
+  <!-- Footer -->
+  <rect x="30" y="460" width="940" height="1" fill="#dddddd" />
+  <text x="30" y="480" font-family="sans-serif" font-size="12" fill="#777" font-style="italic">Generated by: LCOV version 1.15</text>
+</svg>

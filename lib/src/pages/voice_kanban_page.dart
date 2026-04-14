@@ -24,6 +24,7 @@ class _VoiceKanbanPageState extends ConsumerState<VoiceKanbanPage> {
   Future<void> _handleParse() async {
     final text = _textController.text.trim();
     if (text.isEmpty) return;
+    ref.read(voiceKanbanVoiceFlowProvider.notifier).clearVoiceResult();
     try {
       await ref.read(voiceKanbanDraftsProvider.notifier).parse(text);
     } catch (e) {

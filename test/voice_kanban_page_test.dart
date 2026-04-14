@@ -162,7 +162,13 @@ void main() {
       await tester.pumpAndSettle();
 
       expect(find.text('转写文本'), findsOneWidget);
-      expect(find.text('买鸡蛋'), findsWidgets);
+      expect(
+        find.descendant(
+          of: find.byType(Card),
+          matching: find.text('买鸡蛋'),
+        ),
+        findsOneWidget,
+      );
     });
 
     testWidgets('W5: save uses sourceType voice when transcript is active', (
@@ -215,5 +221,68 @@ void main() {
         mockApiClient.createEntry('买鸡蛋', sourceType: 'voice'),
       ).called(1);
     });
+
+    testWidgets(
+      'W6: text parse clears old voice transcript so save uses text path',
+      (tester) async {
+        when(mockApiClient.listItems()).thenAnswer((_) async => []);
+        when(mockApiClient.parse('买鸡蛋')).thenAnswer((_) async => [
+              const ParsedDraft(type: ParsedItemType.task, content: '买鸡蛋')
+            ]);
+        when(mockApiClient.parse('改成文本')).thenAnswer((_) async => [
+              const ParsedDraft(type: ParsedItemType.task, content: '改成文本')
+            ]);
+        when(mockApiClient.createEntry('改成文本')).thenAnswer(
+          (_) async => CreateEntryResponse(
+            rawEntry: RawEntry(
+              id: 'text-1',
+              sourceType: 'text',
+              rawText: '改成文本',
+              createdAt: DateTime(2026, 4, 15),
+            ),
+            items: [
+              ParsedItem(
+                id: 'item-2',
+                rawEntryId: 'text-1',
+                type: ParsedItemType.task,
+                content: '改成文本',
+                createdAt: DateTime(2026, 4, 15),
+              ),
+            ],
+          ),
+        );
+
+        await tester.pumpWidget(
+          createWidget(
+            mockApiClient: mockApiClient,
+            recorder: recorder,
+            transcriptionClient: transcriptionClient,
+          ),
+        );
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.byKey(const Key('btn_start_recording')));
+        await tester.pumpAndSettle();
+        await tester.tap(find.byKey(const Key('btn_stop_recording')));
+        await tester.pump();
+        await tester.pumpAndSettle();
+
+        expect(find.text('转写文本'), findsOneWidget);
+
+        await tester.enterText(
+          find.byKey(const Key('kanban_input_field')),
+          '改成文本',
+        );
+        await tester.tap(find.byKey(const Key('btn_parse')));
+        await tester.pump();
+        await tester.pumpAndSettle();
+
+        await tester.tap(find.byKey(const Key('btn_save')));
+        await tester.pumpAndSettle();
+
+        verify(mockApiClient.createEntry('改成文本')).called(1);
+        verifyNever(mockApiClient.createEntry('买鸡蛋', sourceType: 'voice'));
+      },
+    );
   });
 }

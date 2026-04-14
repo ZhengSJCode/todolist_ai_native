@@ -48,20 +48,35 @@ class MockVoiceKanbanApiClient extends _i1.Mock
           as _i4.Future<List<_i2.ParsedDraft>>);
 
   @override
-  _i4.Future<_i2.CreateEntryResponse> createEntry(String? rawText) =>
+  _i4.Future<_i2.CreateEntryResponse> createEntry(
+    String? rawText, {
+    String? sourceType = 'text',
+  }) =>
       (super.noSuchMethod(
-            Invocation.method(#createEntry, [rawText]),
+            Invocation.method(
+              #createEntry,
+              [rawText],
+              {#sourceType: sourceType},
+            ),
             returnValue: _i4.Future<_i2.CreateEntryResponse>.value(
               _FakeCreateEntryResponse_0(
                 this,
-                Invocation.method(#createEntry, [rawText]),
+                Invocation.method(
+                  #createEntry,
+                  [rawText],
+                  {#sourceType: sourceType},
+                ),
               ),
             ),
             returnValueForMissingStub:
                 _i4.Future<_i2.CreateEntryResponse>.value(
                   _FakeCreateEntryResponse_0(
                     this,
-                    Invocation.method(#createEntry, [rawText]),
+                    Invocation.method(
+                      #createEntry,
+                      [rawText],
+                      {#sourceType: sourceType},
+                    ),
                   ),
                 ),
           )

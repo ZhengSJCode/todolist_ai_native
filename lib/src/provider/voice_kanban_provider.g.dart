@@ -25,7 +25,7 @@ final voiceKanbanApiClientProvider =
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef VoiceKanbanApiClientRef = AutoDisposeProviderRef<VoiceKanbanApiClient>;
-String _$voiceKanbanItemsHash() => r'8ef7de9882f40625012ee1023800bd9e3d1f92c5';
+String _$voiceKanbanItemsHash() => r'5aa2e372b6e3554121bd81b58452a10683ce9362';
 
 /// See also [VoiceKanbanItems].
 @ProviderFor(VoiceKanbanItems)

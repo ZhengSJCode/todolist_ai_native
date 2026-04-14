@@ -26,9 +26,12 @@ class VoiceKanbanItems extends _$VoiceKanbanItems {
     }
   }
 
-  Future<void> createEntry(String rawText) async {
-    await ref.read(voiceKanbanApiClientProvider).createEntry(rawText);
-    await fetchItems(); // Refresh items after creation
+  Future<void> createEntry(String rawText, {String sourceType = 'text'}) async {
+    await ref.read(voiceKanbanApiClientProvider).createEntry(
+      rawText,
+      sourceType: sourceType,
+    );
+    await fetchItems();
   }
 }
 

@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:io';
+import 'dart:typed_data';
 import 'package:shelf/shelf.dart';
 import 'package:shelf/shelf_io.dart' as shelf_io;
 import 'package:shelf_router/shelf_router.dart';
 import 'todo_repository.dart';
 import 'voice_kanban_parser.dart';
+import 'voice_transcriber.dart';
 
 /// Creates and starts an HTTP server bound to [port].
 /// If [port] is 0, the OS will pick a free port.
@@ -12,6 +14,7 @@ import 'voice_kanban_parser.dart';
 Future<HttpServer> createServer({
   int port = 8080,
   TodoRepository? repository,
+  VoiceTranscriber? transcriber,
   InternetAddress? address,
 }) async {
   final repo = repository ?? TodoRepository();
@@ -20,7 +23,10 @@ Future<HttpServer> createServer({
   // GET /todos
   router.get('/todos', (Request req) {
     final projectId = req.url.queryParameters['projectId'];
-    final todos = repo.list(projectId: projectId).map((t) => t.toJson()).toList();
+    final todos = repo
+        .list(projectId: projectId)
+        .map((t) => t.toJson())
+        .toList();
     return _json(todos, statusCode: 200);
   });
 
@@ -77,7 +83,9 @@ Future<HttpServer> createServer({
     final parser = RuleBasedEntryParser();
     final drafts = await parser.parse(rawText);
 
-    return _json({'items': drafts.map((d) => d.toJson()).toList()}, statusCode: 200);
+    return _json({
+      'items': drafts.map((d) => d.toJson()).toList(),
+    }, statusCode: 200);
   });
 
   // POST /entries
@@ -86,8 +94,11 @@ Future<HttpServer> createServer({
     final rawText = body['rawText'] as String?;
     final sourceType = body['sourceType'] as String? ?? 'text';
 
-    if (sourceType != 'text') {
-      return _error(400, 'Invalid sourceType, only "text" is supported');
+    if (sourceType != 'text' && sourceType != 'voice') {
+      return _error(
+        400,
+        'Invalid sourceType, only "text" or "voice" are supported',
+      );
     }
 
     if (rawText == null || rawText.trim().isEmpty) {
@@ -106,10 +117,54 @@ Future<HttpServer> createServer({
     return _json(result.toJson(), statusCode: 201);
   });
 
+  // POST /voice/transcribe
+  router.post('/voice/transcribe', (Request req) async {
+    final bytes = await _readBytes(req);
+    if (bytes.isEmpty) {
+      return _error(400, 'audio body is required');
+    }
+
+    final format = req.headers['x-audio-format'];
+    if (format != 'pcm_s16le') {
+      return _error(400, 'x-audio-format must be pcm_s16le');
+    }
+
+    final sampleRateValue = req.headers['x-sample-rate'];
+    final sampleRateHz = int.tryParse(sampleRateValue ?? '');
+    if (sampleRateHz == null || sampleRateHz <= 0) {
+      return _error(400, 'x-sample-rate must be a positive integer');
+    }
+
+    final fileName = req.headers['x-file-name'] ?? 'voice-input.pcm';
+    final payload = VoiceAudioPayload(
+      bytes: bytes,
+      fileName: fileName,
+      mimeType: req.mimeType ?? req.headers['content-type'],
+      format: format!,
+      sampleRateHz: sampleRateHz,
+    );
+
+    final voiceTranscriber = transcriber;
+    if (voiceTranscriber == null) {
+      return _error(503, 'voice transcriber unavailable');
+    }
+
+    try {
+      final transcript = await voiceTranscriber.transcribe(payload);
+      return _json({'transcript': transcript}, statusCode: 200);
+    } on VoiceTranscriptionException catch (e) {
+      return _error(502, e.message);
+    }
+  });
+
   // GET /items
   router.get('/items', (Request req) {
     final type = req.url.queryParameters['type'];
-    if (type != null && type != 'all' && type != 'task' && type != 'metric' && type != 'note') {
+    if (type != null &&
+        type != 'all' &&
+        type != 'task' &&
+        type != 'metric' &&
+        type != 'note') {
       return _error(400, 'Invalid type parameter');
     }
 
@@ -145,4 +200,12 @@ Future<Map<String, dynamic>> _parseBody(Request req) async {
   final body = await req.readAsString();
   if (body.isEmpty) return {};
   return jsonDecode(body) as Map<String, dynamic>;
+}
+
+Future<List<int>> _readBytes(Request req) async {
+  final builder = BytesBuilder(copy: false);
+  await for (final chunk in req.read()) {
+    builder.add(chunk);
+  }
+  return builder.takeBytes();
 }

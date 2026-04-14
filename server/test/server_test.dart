@@ -4,13 +4,33 @@ import 'dart:io';
 import 'package:http/http.dart' as http;
 import 'package:test/test.dart';
 import 'package:todolist_server/server.dart';
+import 'package:todolist_server/voice_transcriber.dart';
+
+class FakeVoiceTranscriber implements VoiceTranscriber {
+  FakeVoiceTranscriber({this.transcript = '买鸡蛋', this.shouldFail = false});
+
+  final String transcript;
+  final bool shouldFail;
+  VoiceAudioPayload? lastPayload;
+
+  @override
+  Future<String> transcribe(VoiceAudioPayload payload) async {
+    lastPayload = payload;
+    if (shouldFail) {
+      throw const VoiceTranscriptionException('transcriber failed');
+    }
+    return transcript;
+  }
+}
 
 void main() {
   late HttpServer httpServer;
   late String baseUrl;
+  late FakeVoiceTranscriber fakeVoiceTranscriber;
 
   setUp(() async {
-    httpServer = await createServer(port: 0); // OS picks a free port
+    fakeVoiceTranscriber = FakeVoiceTranscriber();
+    httpServer = await createServer(port: 0, transcriber: fakeVoiceTranscriber);
     baseUrl = 'http://192.168.67.235:${httpServer.port}';
   });
 
@@ -261,10 +281,58 @@ void main() {
       final response = await http.post(
         Uri.parse('$baseUrl/entries'),
         headers: {'content-type': 'application/json'},
-        body: jsonEncode({'rawText': 'test', 'sourceType': 'voice'}),
+        body: jsonEncode({'rawText': 'test', 'sourceType': 'audio'}),
       );
       expect(response.statusCode, 400);
     });
+  });
+
+  group('POST /voice/transcribe', () {
+    test('V1: returns transcript from the transcriber', () async {
+      final response = await http.post(
+        Uri.parse('$baseUrl/voice/transcribe'),
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-audio-format': 'pcm_s16le',
+          'x-sample-rate': '16000',
+          'x-file-name': 'voice-input.pcm',
+        },
+        body: [1, 2, 3, 4],
+      );
+
+      expect(response.statusCode, 200);
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      expect(body['transcript'], '买鸡蛋');
+      expect(fakeVoiceTranscriber.lastPayload!.bytes, [1, 2, 3, 4]);
+      expect(fakeVoiceTranscriber.lastPayload!.format, 'pcm_s16le');
+      expect(fakeVoiceTranscriber.lastPayload!.sampleRateHz, 16000);
+    });
+
+    test('V2: empty audio body returns 400', () async {
+      final response = await http.post(
+        Uri.parse('$baseUrl/voice/transcribe'),
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-audio-format': 'pcm_s16le',
+          'x-sample-rate': '16000',
+        },
+        body: <int>[],
+      );
+
+      expect(response.statusCode, 400);
+    });
+  });
+
+  test('P7: POST /entries accepts sourceType voice', () async {
+    final response = await http.post(
+      Uri.parse('$baseUrl/entries'),
+      headers: {'content-type': 'application/json'},
+      body: jsonEncode({'rawText': '买鸡蛋', 'sourceType': 'voice'}),
+    );
+
+    expect(response.statusCode, 201);
+    final body = jsonDecode(response.body) as Map<String, dynamic>;
+    expect(body['rawEntry']['sourceType'], 'voice');
   });
 
   group('GET /items', () {
@@ -282,7 +350,9 @@ void main() {
         headers: {'content-type': 'application/json'},
         body: jsonEncode({'rawText': 'First note'}),
       );
-      await Future.delayed(const Duration(milliseconds: 10)); // Ensure different timestamp
+      await Future.delayed(
+        const Duration(milliseconds: 10),
+      ); // Ensure different timestamp
       await http.post(
         Uri.parse('$baseUrl/entries'),
         headers: {'content-type': 'application/json'},
@@ -296,7 +366,10 @@ void main() {
 
       final firstTime = DateTime.parse(body[0]['createdAt'] as String);
       final secondTime = DateTime.parse(body[1]['createdAt'] as String);
-      expect(firstTime.isAfter(secondTime) || firstTime.isAtSameMomentAs(secondTime), isTrue);
+      expect(
+        firstTime.isAfter(secondTime) || firstTime.isAtSameMomentAs(secondTime),
+        isTrue,
+      );
       expect(body[0]['content'], 'Second note');
       expect(body[1]['content'], 'First note');
     });

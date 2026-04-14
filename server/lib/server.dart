@@ -139,14 +139,14 @@ Future<HttpServer> createServer({
     final payload = VoiceAudioPayload(
       bytes: bytes,
       fileName: fileName,
-      mimeType: req.mimeType ?? req.headers['content-type'],
+      mimeType: req.mimeType ?? req.headers['content-type'] ?? 'application/octet-stream',
       format: format!,
       sampleRateHz: sampleRateHz,
     );
 
     final voiceTranscriber = transcriber;
     if (voiceTranscriber == null) {
-      return _error(503, 'voice transcriber unavailable');
+      return _error(503, 'voice transcription is not configured');
     }
 
     try {

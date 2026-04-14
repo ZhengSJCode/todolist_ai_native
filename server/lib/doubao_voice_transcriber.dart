@@ -63,15 +63,14 @@ class DoubaoVoiceTranscriber implements VoiceTranscriber {
       ),
     );
 
-    final streamedResponse = await _client.send(request);
-    final response = await http.Response.fromStream(streamedResponse);
+    final response = await _sendRequest(request);
     if (response.statusCode != 200) {
       throw VoiceTranscriptionException(
         'Doubao ASR request failed: ${response.statusCode} ${response.body}',
       );
     }
 
-    final decoded = jsonDecode(response.body);
+    final decoded = _decodeBody(response.body);
     if (decoded is! Map<String, dynamic>) {
       throw VoiceTranscriptionException('Doubao ASR returned empty text');
     }
@@ -82,5 +81,25 @@ class DoubaoVoiceTranscriber implements VoiceTranscriber {
     }
 
     return transcript;
+  }
+
+  Future<http.Response> _sendRequest(http.MultipartRequest request) async {
+    try {
+      final streamedResponse = await _client.send(request);
+      return http.Response.fromStream(streamedResponse);
+    } catch (error) {
+      if (error is VoiceTranscriptionException) rethrow;
+      throw VoiceTranscriptionException('Doubao ASR request failed: $error');
+    }
+  }
+
+  dynamic _decodeBody(String body) {
+    try {
+      return jsonDecode(body);
+    } catch (error) {
+      throw VoiceTranscriptionException(
+        'Doubao ASR response parse failed: $error',
+      );
+    }
   }
 }

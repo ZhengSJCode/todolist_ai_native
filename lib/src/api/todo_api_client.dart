@@ -1,11 +1,12 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'todo_model.dart';
+import 'todo_repository.dart';
 
 /// REST client for the todo backend.
 ///
 /// [baseUrl] defaults to `http://192.168.67.235:9001` for local development.
-class TodoApiClient {
+class TodoApiClient implements TodoRepository {
   TodoApiClient({http.Client? httpClient, String? baseUrl})
     : _client = httpClient ?? http.Client(),
       _base = baseUrl ?? 'http://192.168.67.235:9001';
@@ -13,6 +14,7 @@ class TodoApiClient {
   final http.Client _client;
   final String _base;
 
+  @override
   Future<List<TodoModel>> list() async {
     final res = await _client.get(Uri.parse('$_base/todos'));
     _assertOk(res);
@@ -22,6 +24,7 @@ class TodoApiClient {
         .toList();
   }
 
+  @override
   Future<TodoModel> create({
     required String title,
     String description = '',
@@ -45,6 +48,7 @@ class TodoApiClient {
     return TodoModel.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
   }
 
+  @override
   Future<TodoModel> update(
     String id, {
     String? title,
@@ -67,6 +71,7 @@ class TodoApiClient {
     return TodoModel.fromJson(jsonDecode(res.body) as Map<String, dynamic>);
   }
 
+  @override
   Future<void> delete(String id) async {
     final res = await _client.delete(Uri.parse('$_base/todos/$id'));
     _assertOk(res, expected: 204);

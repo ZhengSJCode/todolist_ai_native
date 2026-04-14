@@ -91,6 +91,7 @@ void main() {
       ).captured;
       final body = jsonDecode(captured.first as String) as Map<String, dynamic>;
       expect(body['rawText'], 'test text');
+      expect(body['sourceType'], 'text');
     });
 
     test('C6: createEntry sends sourceType voice when requested', () async {

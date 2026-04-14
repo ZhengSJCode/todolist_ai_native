@@ -36,11 +36,17 @@ class HttpVoiceTranscriptionClient implements VoiceTranscriptionClient {
       throw ApiException(response.statusCode, message);
     }
 
-    final data = jsonDecode(response.body) as Map<String, dynamic>;
-    final transcript = (data['transcript'] as String?)?.trim() ?? '';
-    if (transcript.isEmpty) {
+    try {
+      final data = jsonDecode(response.body) as Map<String, dynamic>;
+      final transcript = (data['transcript'] as String?)?.trim() ?? '';
+      if (transcript.isEmpty) {
+        throw const ApiException(500, 'Missing transcript in response');
+      }
+      return transcript;
+    } on ApiException {
+      rethrow;
+    } catch (_) {
       throw const ApiException(500, 'Missing transcript in response');
     }
-    return transcript;
   }
 }

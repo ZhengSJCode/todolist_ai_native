@@ -53,6 +53,7 @@ class VoiceKanbanDrafts extends _$VoiceKanbanDrafts {
       state = AsyncValue.data(drafts);
     } catch (e, st) {
       state = AsyncValue.error(e, st);
+      rethrow;
     }
   }
 

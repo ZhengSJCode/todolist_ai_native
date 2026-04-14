@@ -61,6 +61,8 @@ void main() {
       );
 
       await container.read(voiceKanbanVoiceFlowProvider.notifier).startRecording();
+      expect(container.read(voiceKanbanVoiceFlowProvider).isRecording, isTrue);
+
       await container
           .read(voiceKanbanVoiceFlowProvider.notifier)
           .stopRecordingAndParse();
@@ -71,7 +73,28 @@ void main() {
       expect(captureState.transcript, '买鸡蛋');
       expect(captureState.isRecording, isFalse);
       expect(captureState.isTranscribing, isFalse);
+      expect(captureState.errorMessage, isNull);
       expect(draftsState.requireValue, hasLength(1));
+      verify(mockApiClient.parse('买鸡蛋')).called(1);
+    });
+
+    test('VF1b: stopRecordingAndParse clears transcript and exposes error on parse failure', () async {
+      when(mockApiClient.parse('买鸡蛋')).thenThrow(Exception('parse failed'));
+
+      await container.read(voiceKanbanVoiceFlowProvider.notifier).startRecording();
+      await container
+          .read(voiceKanbanVoiceFlowProvider.notifier)
+          .stopRecordingAndParse();
+
+      final captureState = container.read(voiceKanbanVoiceFlowProvider);
+      final draftsState = container.read(voiceKanbanDraftsProvider);
+
+      expect(captureState.isRecording, isFalse);
+      expect(captureState.isTranscribing, isFalse);
+      expect(captureState.transcript, isNull);
+      expect(captureState.errorMessage, '语音转写失败，请重试');
+      expect(draftsState.hasError, isFalse);
+      expect(draftsState.requireValue, isEmpty);
     });
 
     test('VF2: saveVoiceDraft persists transcript as sourceType voice', () async {
@@ -99,6 +122,7 @@ void main() {
       );
       when(mockApiClient.listItems()).thenAnswer((_) async => []);
 
+      await container.read(voiceKanbanVoiceFlowProvider.notifier).startRecording();
       await container
           .read(voiceKanbanVoiceFlowProvider.notifier)
           .stopRecordingAndParse();

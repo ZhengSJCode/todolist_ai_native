@@ -119,6 +119,11 @@ Future<HttpServer> createServer({
 
   // POST /voice/transcribe
   router.post('/voice/transcribe', (Request req) async {
+    final voiceTranscriber = transcriber;
+    if (voiceTranscriber == null) {
+      return _error(503, 'voice transcription is not configured');
+    }
+
     final bytes = await _readBytes(req);
     if (bytes.isEmpty) {
       return _error(400, 'audio body is required');
@@ -143,11 +148,6 @@ Future<HttpServer> createServer({
       format: format!,
       sampleRateHz: sampleRateHz,
     );
-
-    final voiceTranscriber = transcriber;
-    if (voiceTranscriber == null) {
-      return _error(503, 'voice transcription is not configured');
-    }
 
     try {
       final transcript = await voiceTranscriber.transcribe(payload);

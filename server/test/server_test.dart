@@ -308,7 +308,23 @@ void main() {
       expect(fakeVoiceTranscriber.lastPayload!.sampleRateHz, 16000);
     });
 
-    test('V2: empty audio body returns 400', () async {
+    test('V2: missing transcriber returns 503', () async {
+      final server = await createServer(port: 0);
+      final url = 'http://192.168.67.235:${server.port}';
+      addTearDown(() => server.close(force: true));
+
+      final response = await http.post(
+        Uri.parse('$url/voice/transcribe'),
+        headers: {'content-type': 'application/octet-stream'},
+        body: <int>[],
+      );
+
+      expect(response.statusCode, 503);
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      expect(body['error'], 'voice transcription is not configured');
+    });
+
+    test('V3: empty audio body returns 400', () async {
       final response = await http.post(
         Uri.parse('$baseUrl/voice/transcribe'),
         headers: {
@@ -320,6 +336,29 @@ void main() {
       );
 
       expect(response.statusCode, 400);
+    });
+
+    test('V4: transcriber failure maps to 502', () async {
+      final server = await createServer(
+        port: 0,
+        transcriber: FakeVoiceTranscriber(shouldFail: true),
+      );
+      final url = 'http://192.168.67.235:${server.port}';
+      addTearDown(() => server.close(force: true));
+
+      final response = await http.post(
+        Uri.parse('$url/voice/transcribe'),
+        headers: {
+          'content-type': 'application/octet-stream',
+          'x-audio-format': 'pcm_s16le',
+          'x-sample-rate': '16000',
+        },
+        body: [1, 2, 3, 4],
+      );
+
+      expect(response.statusCode, 502);
+      final body = jsonDecode(response.body) as Map<String, dynamic>;
+      expect(body['error'], 'transcriber failed');
     });
   });
 

@@ -5,8 +5,8 @@ import 'voice_kanban_model.dart';
 
 class VoiceKanbanApiClient {
   VoiceKanbanApiClient({http.Client? httpClient, String? baseUrl})
-      : _client = httpClient ?? http.Client(),
-        _base = baseUrl ?? 'http://192.168.67.235:9001';
+    : _client = httpClient ?? http.Client(),
+      _base = baseUrl ?? 'http://192.168.67.235:9001';
 
   final http.Client _client;
   final String _base;
@@ -20,14 +20,19 @@ class VoiceKanbanApiClient {
     _assertOk(res);
     final data = jsonDecode(res.body) as Map<String, dynamic>;
     final items = data['items'] as List<dynamic>;
-    return items.map((e) => ParsedDraft.fromJson(e as Map<String, dynamic>)).toList();
+    return items
+        .map((e) => ParsedDraft.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
-  Future<CreateEntryResponse> createEntry(String rawText) async {
+  Future<CreateEntryResponse> createEntry(
+    String rawText, {
+    String sourceType = 'text',
+  }) async {
     final res = await _client.post(
       Uri.parse('$_base/entries'),
       headers: {'content-type': 'application/json'},
-      body: jsonEncode({'rawText': rawText, 'sourceType': 'text'}),
+      body: jsonEncode({'rawText': rawText, 'sourceType': sourceType}),
     );
     _assertOk(res, expected: 201);
     final data = jsonDecode(res.body) as Map<String, dynamic>;
@@ -45,7 +50,9 @@ class VoiceKanbanApiClient {
     final res = await _client.get(uri);
     _assertOk(res);
     final data = jsonDecode(res.body) as List<dynamic>;
-    return data.map((e) => ParsedItem.fromJson(e as Map<String, dynamic>)).toList();
+    return data
+        .map((e) => ParsedItem.fromJson(e as Map<String, dynamic>))
+        .toList();
   }
 
   void _assertOk(http.Response res, {int expected = 200}) {

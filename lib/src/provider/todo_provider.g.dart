@@ -6,7 +6,7 @@ part of 'todo_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$todoRepositoryHash() => r'b8fe7d5689c17b5d507ea2e2aeb97cb9ebf0d00e';
+String _$todoRepositoryHash() => r'4b4b3423e828a7df0ef2758fb5d3b477a47b0bbf';
 
 /// Provides the todo repository abstraction.
 ///
@@ -45,7 +45,7 @@ final currentProjectIdProvider = AutoDisposeProvider<String?>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef CurrentProjectIdRef = AutoDisposeProviderRef<String?>;
-String _$todoListHash() => r'01a23ce0cb97ab9e2a5f8d72a948ac76c4f12d59';
+String _$todoListHash() => r'2700ccd275220085909070591db129a243204b11';
 
 /// AsyncNotifier that owns the todo list state.
 ///

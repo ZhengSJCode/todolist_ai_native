@@ -31,7 +31,7 @@ void main() {
   setUp(() async {
     fakeVoiceTranscriber = FakeVoiceTranscriber();
     httpServer = await createServer(port: 0, transcriber: fakeVoiceTranscriber);
-    baseUrl = 'http://192.168.67.235:${httpServer.port}';
+    baseUrl = 'http://127.0.0.1:${httpServer.port}';
   });
 
   tearDown(() async {
@@ -310,7 +310,7 @@ void main() {
 
     test('V2: missing transcriber returns 503', () async {
       final server = await createServer(port: 0);
-      final url = 'http://192.168.67.235:${server.port}';
+      final url = 'http://127.0.0.1:${server.port}';
       addTearDown(() => server.close(force: true));
 
       final response = await http.post(
@@ -343,7 +343,7 @@ void main() {
         port: 0,
         transcriber: FakeVoiceTranscriber(shouldFail: true),
       );
-      final url = 'http://192.168.67.235:${server.port}';
+      final url = 'http://127.0.0.1:${server.port}';
       addTearDown(() => server.close(force: true));
 
       final response = await http.post(

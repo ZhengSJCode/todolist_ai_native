@@ -19,7 +19,7 @@ void main() {
 
   setUpAll(() async {
     httpServer = await server_lib.createServer(port: 0);
-    client = TodoApiClient(baseUrl: 'http://192.168.67.235:${httpServer.port}');
+    client = TodoApiClient(baseUrl: 'http://127.0.0.1:${httpServer.port}');
   });
 
   tearDownAll(() async {

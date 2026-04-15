@@ -178,7 +178,7 @@ Future<HttpServer> createServer({
 
   final server = await shelf_io.serve(
     handler,
-    address ?? InternetAddress('192.168.67.235'),
+    address ?? InternetAddress.anyIPv4,
     port,
   );
   return server;

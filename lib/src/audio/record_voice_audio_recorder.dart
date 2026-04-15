@@ -12,6 +12,7 @@ class RecordVoiceAudioRecorder implements VoiceAudioRecorder {
 
   final AudioRecorder _recorder;
   StreamSubscription<Uint8List>? _subscription;
+  Completer<void>? _streamDone;
   BytesBuilder _buffer = BytesBuilder(copy: false);
 
   @override
@@ -21,6 +22,7 @@ class RecordVoiceAudioRecorder implements VoiceAudioRecorder {
     }
 
     _buffer = BytesBuilder(copy: false);
+    _streamDone = Completer<void>();
     final stream = await _recorder.startStream(
       const RecordConfig(
         encoder: AudioEncoder.pcm16bits,
@@ -28,14 +30,19 @@ class RecordVoiceAudioRecorder implements VoiceAudioRecorder {
         numChannels: 1,
       ),
     );
-    _subscription = stream.listen(_buffer.add);
+    _subscription = stream.listen(
+      _buffer.add,
+      onDone: () => _streamDone?.complete(),
+    );
   }
 
   @override
   Future<RecordedAudioClip?> stop() async {
+    await _recorder.stop();
+    await _streamDone?.future;
     await _subscription?.cancel();
     _subscription = null;
-    await _recorder.stop();
+    _streamDone = null;
 
     final bytes = _buffer.takeBytes();
     if (bytes.isEmpty) {

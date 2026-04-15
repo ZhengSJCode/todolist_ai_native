@@ -7,24 +7,23 @@ part of 'voice_kanban_voice_flow_provider.dart';
 // **************************************************************************
 
 String _$voiceAudioRecorderHash() =>
-    r'63665e3104373980daa3809745890a10cb9f52c7';
+    r'8587ce605ca88f3faca9d3b629e21200d1bfafe4';
 
 /// See also [voiceAudioRecorder].
 @ProviderFor(voiceAudioRecorder)
-final voiceAudioRecorderProvider =
-    AutoDisposeProvider<VoiceAudioRecorder>.internal(
-      voiceAudioRecorder,
-      name: r'voiceAudioRecorderProvider',
-      debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
-          ? null
-          : _$voiceAudioRecorderHash,
-      dependencies: null,
-      allTransitiveDependencies: null,
-    );
+final voiceAudioRecorderProvider = Provider<VoiceAudioRecorder>.internal(
+  voiceAudioRecorder,
+  name: r'voiceAudioRecorderProvider',
+  debugGetCreateSourceHash: const bool.fromEnvironment('dart.vm.product')
+      ? null
+      : _$voiceAudioRecorderHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
 
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
-typedef VoiceAudioRecorderRef = AutoDisposeProviderRef<VoiceAudioRecorder>;
+typedef VoiceAudioRecorderRef = ProviderRef<VoiceAudioRecorder>;
 String _$voiceTranscriptionClientHash() =>
     r'd2a30dafd9dbf63ec7fe31c6b7df6b21b5963e35';
 

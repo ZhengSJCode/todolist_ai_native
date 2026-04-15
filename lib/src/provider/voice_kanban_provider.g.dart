@@ -44,7 +44,7 @@ final voiceKanbanItemsProvider =
     );
 
 typedef _$VoiceKanbanItems = AutoDisposeAsyncNotifier<List<ParsedItem>>;
-String _$voiceKanbanDraftsHash() => r'dc44d75632b526a071ade14a2ea3c1932be46b8a';
+String _$voiceKanbanDraftsHash() => r'24e78b6cd50e9831d0d297f21a145992e5941603';
 
 /// See also [VoiceKanbanDrafts].
 @ProviderFor(VoiceKanbanDrafts)
